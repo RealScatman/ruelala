@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+
+<div class='row mt-3 mb-3'>
+    <div class='col-sm-12'>
+        <div class="my-1 p-3 bg-white rounded shadow">
+            <h5><a href="{% url 'staff-order-list' %}">All Orders</a><span class='text-muted'>/ Order: #{{ object.order_id }}</span></h5>
+            <span class=''><small>Staff User: (<a  href="{% url 'accounts:user-home' %}" class=''> {{ request.user.email }} </a>) {% if request.user.is_sub_member %}<span class="badge badge-success ml-1">Subscriber <i class="fas fa-check"></i></span>{% endif %}</small></span>
+        </div>
+    </div>
+</div>
+
+<div class='row'>
+    {% include "orders/order_summary_short.html" with order=order %}
+
+    <p><b>Please update the order status after customer pickup.</b></p>
+    <div class='p-3'>
+        <form method='POST'> {% csrf_token %}
+            {{ form }}
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type='submit' class='btn btn-primary btn-sm my-3'>Save</button>
+                <a class='btn btn-link btn-sm my-3' href='{{ object.staff_get_absolute_url }}'>Go Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+{% endblock %}

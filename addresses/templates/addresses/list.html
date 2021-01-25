@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class='row mt-3 mb-3'>
+    <div class='col-sm-12'>
+        <div class="my-1 p-3 bg-white rounded box-shadow">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb bg-white">
+                <li class="breadcrumb-item"><a href="{% url 'accounts:user-home' %}"><span class='maroon-text'><i class="fas fa-user-cog"></i></span> Account Settings </a></li>
+                <li class="breadcrumb-item active">My Addresses</li>
+              </ol>
+            </nav>
+            <span class='make-text-sm'><small>User: (<a  href="{% url 'accounts:user-home' %}" class=''> {{ request.user.email }} </a>) {% if request.user.is_sub_member %}<span class="badge badge-pill badge-danger align-text-bottom real-sm">Subscriber</span>{% endif %}</small></span>
+        </div>
+    </div>
+</div>
+
+
+
+<div class='row'>
+    <div class='col-12'>
+        <h4>My Address{% if object_list.count > 1%}es{% endif %} <small><a href='{% url "address-create" %}'>Create New</a></small></h4>
+        <hr/>
+    </div>
+</div>
+<div class='row'>
+        {% for obj in object_list %}
+            <div class='col-12 col-md-4 my-3'>
+                <div class="card shadow">
+                  <div class="card-body">
+                    <h4 class="card-title">{{ obj }}</h4> 
+                     <small>{{ obj.get_address_type_display }}</small><br/>
+                     <br/>
+                     <h5>Address</h5>
+                     {{ obj.get_address|linebreaks }}
+                    
+                    <a href='{{ obj.get_absolute_url }}' class='btn btn-danger'>Edit</a>
+                  </div>
+                </div>
+            </div>
+        {% empty %}
+        <div class='col-sm-12'>
+         <p class='text-muted'>No Address provided yet... <a href='{% url "address-create" %}'>Create New</a></p>
+        </div>
+        {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+<div class='row'>
+	<div class='col-12 mx-auto mt-4'>
+		<h5>Add Payment Method</h5>
+		<hr/>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-12 col-md-6 mx-auto'>
+		<div class="card bg-light mb-3" style="max-width: 34rem;">
+	      <div class="card-body">
+			<div class='stripe-payment-form' data-token='{{ publish_key }}' data-next-url='{% if next_url %}{{ next_url }}{% endif %}' data-btn-title='Add New Card'></div>
+			</div>
+		</div>
+	</div>
+
+	<div class='col-12 col-md-6 mx-auto'>
+		<div class="card mb-3" >
+	      <div class="card-body">
+			<h5 class="card-title">We accept all major credit cards.<br/> <i class="fab fa-cc-visa"></i> <i class="fab fa-cc-mastercard"></i> <i class="fab fa-cc-discover"></i></h5>
+			<!-- <p><i class="fab fa-cc-visa"></i> <i class="fab fa-cc-mastercard"></i> <i class="fab fa-cc-discover"></i></p> -->
+			<p>Our payment process is powered by Stripe, which is a leader in secure online payment processing.</p>
+			<p>For more details check out our payment processing guidelines <a>here</a>.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class='row'>
+	<div class='col-12 mx-auto mt-4'>
+		<h1>Order Detail</h1>
+		<hr/>
+	</div>
+</div>
+<div class='row'>
+	<div class='col-12 col-md-6 mx-auto'>
+		<div class="card bg-light mb-3" style="max-width: 34rem;">
+			<div class="card-body">
+				<h5 class="card-title">Order ID: {{ object.order_id }}</h5>
+				<br/>
+				<p>Shipping Address: {{ object.shipping_address.get_address }}</p>
+				<p>Billing Address: {{ object.billing_address.get_address }}</p>
+				<hr/>
+				<p>Item(s) Purchased: {% for product in object.cart.products.all %}{{ product }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+				<hr/>
+				<p> Subtotal: {{ object.cart.total }}</p>
+				<p> Shipping Total: {{ object.shipping_total }}</p>
+				<p> Order Status: {{ object.get_status }}</p>
+			</div>
+		</div>
+	</div>
+	<div class='col-12 col-md-6 mx-auto'>
+		<div class="card border-light mt-1 mb-3" style="max-width: 28rem;">
+	      <div class="card-body">
+			<p>Looking for other products? Browse our bestsellers now!</p>
+			<ul>
+				<li>Quality Glassware</li>
+				<li>Fast, Free Shipping</li>
+				<li>2-3 Day Shipping</li>
+			</ul>
+			</div>
+			<div class="text-center mb-2">
+				<hr/>
+				<span>Missing Something?</span>
+				<a href="/products/" class="btn btn-outline-primary">Browse All</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

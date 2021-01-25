@@ -1,0 +1,15 @@
+<form class ='form-product-ajax' method='POST' action='{% url "account:update" %}' data-end-point='{% url "account:update" %}' class="form"> {% csrf_token %}
+    <!-- <form id='add-form' method='GET' action="{% url 'cart' %}">     -->
+    <input type='hidden' name='item' value='{{ var_obj.id }}' />
+
+	<span class='submit-span'>
+	{% if box.subscription.id == subscription.id %}
+		<div class='btn-group'> <a class='btn btn-success' href="{% url 'account:box-home' %}">Proceed</a> <button type='submit' class='btn btn-link'> Remove?</button>
+        </div>
+        <!-- <input class='form-control' type='number' name='qty' value='1' /> -->
+	{% else %}
+		<button id='submit-button' type='submit' class='btn btn-primary'> Select Box</button>
+	{% endif %}
+	</span>
+
+</form>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class='col-sm-4 mx-auto text-center'>
+    <div class='card shadow'>
+        <div class='card-body'>
+            <p class='lead'>
+            Select your addresses for this order.
+            </p>
+            <form method="POST" action=''>{% csrf_token %}
+
+
+            {{ form|crispy }}
+
+
+            <input class='btn btn-dark' type='submit' value='Select'/>
+            <a class='btn btn-link' href='{% url "user_address_create" %}'>Add new</a>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

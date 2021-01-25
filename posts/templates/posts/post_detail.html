@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+{{ object.title }} | {{ object.publish }} - {{ block.super }}
+{% endblock title %}
+
+{% block head_extra %}
+
+<meta name="author" content="Beaker.Life">
+<meta name="description" content="{{ object.content|truncatewords:40 }}">
+<meta name="thumbnail" content="{{ object.image.url }}" />
+<meta property="og:url" content="{{ BASE_URL }}{{ object.get_absolute_url }}" />
+<meta property="og:site_name" content="beaker.life">
+<meta property="og:type" content="article">
+<meta property="og:image" content="{{ object.image.url }}" />
+<meta property="og:title" content="{{ object.title }} - Beaker.Life" />
+<meta property="og:description" content="{{ object.content|truncatewords:40 }}" />
+
+<link rel="amphtml" href="{{ BASE_URL }}{{ object.get_amp_url }}">
+<link rel="canonical" href="{{ BASE_URL }}{{ object.get_absolute_url }}">
+
+<script type="application/ld+json">
+	{
+	 "@context": "http://schema.org",
+	 "@type": "NewsArticle",
+	 "mainEntityOfPage":{
+	   "@type":"WebPage",
+	   "@id":"{{ BASE_URL }}{{ object.get_absolute_url }}",
+	   "description": "{{ object.content|truncatewords:30 }}"
+	 },
+	 "url": "https://www.beaker.life",
+	 "headline": "{{ object.title }}",
+	 "image": {
+	   "@type": "ImageObject",
+	   "url": "{{ object.image.url }}"
+	 },
+	 "datePublished": "{{ object.publish }}",
+	 "dateModified": "{{ object.updated }}",
+	 "author": {
+	   "@type": "Organization",
+	   "name": "Beaker Life"
+	 },
+	 "publisher": {
+	   "@type": "Organization",
+	   "name": "Beaker.Life",
+	   "logo": {
+		 "@type": "ImageObject",
+		 "url": "#",
+		 "width": 64,
+		 "height": 64
+	   }
+	 },
+	 "description": "{{ object.content|truncatewords:30 }}"
+	}
+	</script>
+
+<style>
+.img-thumbnail {
+    border: 0 none;
+    box-shadow: none;
+	background: transparent;
+}
+
+/* .rounded {
+	border-radius: 25px;
+} */
+
+#rcorners1 {
+  border-radius: 10px;
+}
+
+.text-italic {
+	  font-style: italic;
+}
+
+#div2 {
+  position: absolute;
+  /* top: 0; */
+  /* just used to show how to include the margin in the effect */
+  /* margin-top: 20px; */
+  /* border-top: 1px solid purple; */
+  padding-top: 10px;
+}
+
+#div2.fixed {
+  position: fixed;
+  top: 0;
+  width: 445px;
+}
+
+.margin-spacer-1 {
+	margin-top: 25px;
+}
+
+.margin-spacer-25 {
+	margin-top: 25px;
+}
+
+
+  @media (max-width: 480px) {
+	#div2 {
+	  position: unset;
+	}  
+    #div2.fixed {
+      position: relative;
+      width: 100%;
+    }
+  }
+
+footer {
+  position: relative;
+}
+
+.jconfirm .jconfirm-box .jconfirm-buttons button {
+  font-size: 13px;
+}
+
+</style>
+
+{% endblock head_extra %}
+
+{% block script %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class='container'>
+	<div class='row'>
+		<div class='col-md-7'>
+			<br/>
+			{% if object.image %}
+			<img src='{{ object.image.url }}' id="rcorners1" class='img-thumbnail' /><br/><br/>
+			{% endif %}
+			<h3 class='title-heavy-txt'>{{ object.title }} {% if request.user.is_staff %}<span class='float-right'><a class='btn btn-sm btn-danger' href="{% url 'posts:update' slug=object.slug %}">Edit</a></span>{% endif %}</h3>
+			<p class='text-muted'>{% if object.draft %}<span style='color:red;'>Draft</span> {% endif %}{{ object.publish }} {% if request.user.is_staff %} <span class='float-right' style='color:red;'><i class="far fa-eye"></i> {{ object.views }} </span>{% endif %}</p>
+			<p class='text-muted text-italic'>By <a href="{% url 'about' %}">Beaker.Life Brew Team</a></p>
+			<p><div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+			<hr/>
+			</p>
+
+			<div class='row'>
+				<div class='col-sm-12'>
+					<div class="card mx-auto">
+						<div class='card-body'>
+							<div class='content-markdown'>{{ object.content }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='col-md-5 mx-auto mt-4'>
+		  <!-- <div id='div2'> -->
+			<div class="card border-dark margin-spacer-1 mb-2">
+				<div class="card-body">
+					<div class='text-center'>
+					<h5>Signup for our Newsletter!</h5>
+					</div>
+				</div>
+			</div>	
+		  <div class='margin-spacer-25'>
+				<h5>Related Stories<span class='ml-5 legal-sm'><a href="{% url 'posts:list' %}"><i class="fa fa-bolt" aria-hidden="true"></i> See all</a></span></h5>
+				<hr/>
+					{% for post in top_posts %}
+					<ul class='list-unstyled'>
+					{% include "posts/snippets/post_thumbnail2.html" with post=post %}
+					<hr/>
+					</ul>
+					{% endfor %}
+		  </div>
+		</div>
+	    <!-- </div> -->
+	</div>
+</div>
+
+
+{% endblock %}

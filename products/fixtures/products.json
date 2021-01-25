@@ -1,0 +1,434 @@
+[
+{
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+        "title": "Baked Beans",
+        "slug": "baked-beans",
+        "description": "Baked Beans",
+        "price": "3.99",
+        "active": true,
+        "default": 4,
+        "type": null,
+        "categories": [
+            4
+        ]
+    }
+},
+{
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+        "title": "Iceberg Lettuce",
+        "slug": "iceberg-lettuce",
+        "description": "sweet and leafy iceberg lettuce.",
+        "price": "2.99",
+        "active": true,
+        "default": 3,
+        "type": 2,
+        "categories": [
+            3
+        ]
+    }
+},
+{
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+        "title": "Golden Potatoes",
+        "slug": "golden-potatoes",
+        "description": "Super delicious",
+        "price": "3.99",
+        "active": true,
+        "default": 3,
+        "type": 2,
+        "categories": [
+            3
+        ]
+    }
+},
+{
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+        "title": "NY Stripe Steak",
+        "slug": "ny-stripe-steak",
+        "description": "Bone in fresh NY Stipe Steak.",
+        "price": "8.99",
+        "active": true,
+        "default": 6,
+        "type": 2,
+        "categories": [
+            6
+        ]
+    }
+},
+{
+    "model": "products.product",
+    "pk": 5,
+    "fields": {
+        "title": "Land O Lakes American Cheese",
+        "slug": "land-o-lakes-american-cheese",
+        "description": "super fresh creamy american.",
+        "price": "5.99",
+        "active": true,
+        "default": 1,
+        "type": 2,
+        "categories": [
+            1
+        ]
+    }
+},
+{
+    "model": "products.product",
+    "pk": 6,
+    "fields": {
+        "title": "Horizon Organic Milk",
+        "slug": "horizon-organic-milk",
+        "description": "Horizon Organic Milk",
+        "price": "5.99",
+        "active": true,
+        "default": 5,
+        "type": 1,
+        "categories": [
+            5
+        ]
+    }
+},
+{
+    "model": "products.product",
+    "pk": 7,
+    "fields": {
+        "title": "Kaiser Rolls",
+        "slug": "kaiser-rolls",
+        "description": "Freshly baked from our Dutch oven!",
+        "price": "4.99",
+        "active": true,
+        "default": 2,
+        "type": 2,
+        "categories": [
+            2
+        ]
+    }
+},
+{
+    "model": "products.product",
+    "pk": 8,
+    "fields": {
+        "title": "Corned Beef Hash",
+        "slug": "corned-beef-hash",
+        "description": "Corned Beef Hash in a Can!",
+        "price": "3.99",
+        "active": true,
+        "default": 4,
+        "type": 2,
+        "categories": [
+            4
+        ]
+    }
+},
+{
+    "model": "products.variation",
+    "pk": 1,
+    "fields": {
+        "product": 1,
+        "title": "12oz Can",
+        "slug": "12oz-can",
+        "price": "3.99",
+        "sale_price": "3.49",
+        "active": true,
+        "featured": true,
+        "inventory": 5,
+        "image": "",
+        "size": null,
+        "availability": null
+    }
+},
+{
+    "model": "products.variation",
+    "pk": 2,
+    "fields": {
+        "product": 2,
+        "title": "1 pc",
+        "slug": "default",
+        "price": "2.99",
+        "sale_price": "1.99",
+        "active": true,
+        "featured": true,
+        "inventory": 5,
+        "image": "",
+        "size": null,
+        "availability": null
+    }
+},
+{
+    "model": "products.variation",
+    "pk": 3,
+    "fields": {
+        "product": 3,
+        "title": "1lb Bag",
+        "slug": "default-n1z8",
+        "price": "3.99",
+        "sale_price": "3.49",
+        "active": true,
+        "featured": true,
+        "inventory": 5,
+        "image": "",
+        "size": null,
+        "availability": null
+    }
+},
+{
+    "model": "products.variation",
+    "pk": 4,
+    "fields": {
+        "product": 4,
+        "title": "1lb",
+        "slug": "default-c5ln",
+        "price": "8.99",
+        "sale_price": "6.99",
+        "active": true,
+        "featured": true,
+        "inventory": 5,
+        "image": "",
+        "size": null,
+        "availability": null
+    }
+},
+{
+    "model": "products.variation",
+    "pk": 5,
+    "fields": {
+        "product": 5,
+        "title": "1lb",
+        "slug": "default-w2sm",
+        "price": "5.99",
+        "sale_price": "5.59",
+        "active": true,
+        "featured": true,
+        "inventory": 5,
+        "image": "",
+        "size": null,
+        "availability": null
+    }
+},
+{
+    "model": "products.variation",
+    "pk": 6,
+    "fields": {
+        "product": 6,
+        "title": "64oz-Carton",
+        "slug": "default-j74c",
+        "price": "5.99",
+        "sale_price": "5.29",
+        "active": true,
+        "featured": true,
+        "inventory": 5,
+        "image": "",
+        "size": null,
+        "availability": null
+    }
+},
+{
+    "model": "products.variation",
+    "pk": 7,
+    "fields": {
+        "product": 7,
+        "title": "6ct",
+        "slug": "default-wcxn",
+        "price": "4.99",
+        "sale_price": "4.59",
+        "active": true,
+        "featured": true,
+        "inventory": 5,
+        "image": "",
+        "size": null,
+        "availability": null
+    }
+},
+{
+    "model": "products.variation",
+    "pk": 8,
+    "fields": {
+        "product": 8,
+        "title": "1 Can",
+        "slug": "default-ns0m",
+        "price": "3.99",
+        "sale_price": "2.49",
+        "active": true,
+        "featured": true,
+        "inventory": 5,
+        "image": "",
+        "size": null,
+        "availability": null
+    }
+},
+{
+    "model": "products.productimage",
+    "pk": 2,
+    "fields": {
+        "product": 1,
+        "image": "products/baked-beans/baked-beans-None.jpeg"
+    }
+},
+{
+    "model": "products.productimage",
+    "pk": 3,
+    "fields": {
+        "product": 2,
+        "image": "products/iceberg-lettuce/iceberg-lettuce-3.jpg"
+    }
+},
+{
+    "model": "products.productimage",
+    "pk": 4,
+    "fields": {
+        "product": 3,
+        "image": "products/golden-potatoes/golden-potatoes-4.jpg"
+    }
+},
+{
+    "model": "products.productimage",
+    "pk": 5,
+    "fields": {
+        "product": 4,
+        "image": "products/ny-stripe-steak/ny-stripe-steak-5.jpg"
+    }
+},
+{
+    "model": "products.productimage",
+    "pk": 6,
+    "fields": {
+        "product": 5,
+        "image": "products/land-o-lakes-american-cheese/land-o-lakes-american-cheese-6.png"
+    }
+},
+{
+    "model": "products.productimage",
+    "pk": 7,
+    "fields": {
+        "product": 6,
+        "image": "products/horizon-organic-milk/horizon-organic-milk-7.jpg"
+    }
+},
+{
+    "model": "products.productimage",
+    "pk": 8,
+    "fields": {
+        "product": 7,
+        "image": "products/kaiser-rolls/kaiser-rolls-8.jpg"
+    }
+},
+{
+    "model": "products.productimage",
+    "pk": 9,
+    "fields": {
+        "product": 8,
+        "image": "products/corned-beef-hash/corned-beef-hash-9.jpg"
+    }
+},
+{
+    "model": "products.category",
+    "pk": 1,
+    "fields": {
+        "title": "Deli & Cheese",
+        "slug": "deli-cheese",
+        "description": "Deli Sliced Meats and Cheeses.",
+        "active": true,
+        "timestamp": "2020-04-03T15:49:52.494Z"
+    }
+},
+{
+    "model": "products.category",
+    "pk": 2,
+    "fields": {
+        "title": "Bakery",
+        "slug": "bakery",
+        "description": "Bakery",
+        "active": true,
+        "timestamp": "2020-04-03T15:50:14.115Z"
+    }
+},
+{
+    "model": "products.category",
+    "pk": 3,
+    "fields": {
+        "title": "Produce",
+        "slug": "produce",
+        "description": "Produce. Fresh Veggies.",
+        "active": true,
+        "timestamp": "2020-04-03T15:50:29.663Z"
+    }
+},
+{
+    "model": "products.category",
+    "pk": 4,
+    "fields": {
+        "title": "Dry Goods",
+        "slug": "dry-goods",
+        "description": "Dry Goods",
+        "active": true,
+        "timestamp": "2020-04-03T15:51:07.010Z"
+    }
+},
+{
+    "model": "products.category",
+    "pk": 5,
+    "fields": {
+        "title": "Dairy",
+        "slug": "dairy",
+        "description": "Dairy",
+        "active": true,
+        "timestamp": "2020-04-03T15:51:21.357Z"
+    }
+},
+{
+    "model": "products.category",
+    "pk": 6,
+    "fields": {
+        "title": "Meats",
+        "slug": "meats",
+        "description": "Meats",
+        "active": true,
+        "timestamp": "2020-04-03T15:51:37.704Z"
+    }
+},
+{
+    "model": "products.productfeatured",
+    "pk": 1,
+    "fields": {
+        "product": 2,
+        "image": "products/iceberg-lettuce/featured/iceberg-lettuce-None.jpg",
+        "title": "Iceberg Lettuce On Sale!",
+        "text": "Crisp and Refreshing",
+        "text_right": false,
+        "text_css_color": null,
+        "text_css_shadow_color": null,
+        "show_price": false,
+        "make_image_background": true,
+        "active": true
+    }
+},
+{
+    "model": "products.type",
+    "pk": 1,
+    "fields": {
+        "title": "Organic",
+        "slug": "organic",
+        "description": "Certified Fresh Organic",
+        "active": true,
+        "timestamp": "2020-04-03T16:02:10.485Z"
+    }
+},
+{
+    "model": "products.type",
+    "pk": 2,
+    "fields": {
+        "title": "Non-Organic",
+        "slug": "non-organic",
+        "description": "Non-Organic items. Not certified but super wholesome.",
+        "active": true,
+        "timestamp": "2020-04-03T16:02:48.230Z"
+    }
+}
+]

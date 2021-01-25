@@ -1,0 +1,23 @@
+<div class="thumbnail">
+	{% if variation.image_url != 'No Image Provided' %}
+	<div class='vid-container'>
+		<a href="{% url 'products:exp_detail' pk=variation.product.product_set.id %}?var_display={{ variation.slug }}"><img id='img' class='img-fluid' src='{{ variation.image_url }}' /></a><br/>
+	</div>
+	{% else %}
+	<div class='vid-container'>
+		<a href="{% url 'products:exp_detail' pk=variation.product.product_set.id %}?var_display={{ variation.slug }}"><img id='img' class='img-fluid' src='{{ variation.product.product_set.image_url }}' /></a><br/>
+	</div>
+	{% endif %}
+	<h5 class='total-thumb'><a href="#">{{ variation.product.product_set.title }}</a><br/>
+		<span class='variety-text'>{{ variation.title }}</span></h5>
+	{% if price == "True" %}
+		$<span class='sale-price'>{{ variation.sale_price }}</span> <span class='og-price'>{{ variation.price }}</span>
+	{% endif %}
+	<p class='legal-sm'><span class='text-muted'>Pick Up Today</span>
+		{% if variation.inventory > 0 %} <span class='green-qty-text'>Limited Quantity</span>
+		{% else %}
+		<span class='unavailable-text'>call for availability</span>
+		{% endif %}
+		<br/>
+		<span class='text-muted'>Delivery</span> <span class='unavailable-text'>Unavailable</span></p>
+</div>

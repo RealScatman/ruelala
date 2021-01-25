@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <style type="text/css">
+
+            /* @page {
+            size: letter portrait; */
+            /* size: letter landscape; */
+            /* margin: 2cm; */
+            /* @frame content_frame {
+                left: 50pt;
+                width: 700pt;
+                top: 50pt;
+                height: 692pt; */
+                /* -pdf-frame-border: 1; for debugging the layout */
+                /* } */
+            /* } */
+
+            .template-title {
+                font-weight: 200;
+                font-size: 28px;
+                /* text-align: right; */
+                color: #007cae;
+            }
+
+            .invoice-info {
+                font-weight: 200;
+                font-size: 14px;
+                /* text-align: right;          */
+            }
+
+            .company-source {
+                font-weight: 200;
+                font-size: 14px;
+                text-align: left;
+            }
+
+            .company-address {
+                font-size: 9px;
+                text-align: left;
+            }
+
+            .invoice {
+                font-weight: 200;
+                font-size: 14px;
+            }
+
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+
+            .bill-bold {
+                font-weight: 300;
+            }
+
+            .records {
+                font-size: 18px;
+                font-weight: 100;
+                text-align: center;
+            }
+
+            .item-details {
+                text-align: center;
+            }
+
+            .item-details-center {
+                font-weight: bold;
+                text-align: center;
+            }
+
+            .item-details-right {
+                font-weight: bold;
+                text-align: right;
+            }
+
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;  
+            }
+
+            .title span {
+                color: #007cae;
+            }
+
+            .details {
+                padding: 10px 20px 0px 20px;
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+
+            table, th, td {
+              border: 1px solid black;
+            }
+
+        </style>
+
+    </head>
+
+
+
+    <body>
+
+            <div class='company-source'>
+                <h4>Beaker Life, LLC</h4>
+                <p class='company-address'>304 Tupelo Grove<br/>
+                Ambler, PA 19002<br/>
+                (215) 313-4362</p>
+            </div>
+
+            <div class='template-title'>
+                <h2>Order Receipt</h2>
+            </div>
+            <div class='invoice-info'>
+                <p>Invoice # BL_{{ order_id }}<br/>
+                Order # {{ order_id }}<br/>
+                Invoice Date: {{ invoice_time }}</p>
+            </div>
+
+
+            <div class='invoice'>
+                <div class='details'>
+                    Billed To: <br/><br/>
+                    {{ customer_name }}<br/>
+                    <!-- {{ customer_company }}<br/> -->
+                    {{ customer_address_1 }}<br/>
+                    {{ customer_address_city }}, {{ customer_address_state }} {{ customer_address_zipcode }}<br/><br/>
+
+                    Amount Due Now:  $ {{ invoice_amount }}<br/><br/>
+                    Please Make All Checks Payable to: Beaker Life, LLC<br/>
+                    <hr class='hrItem' />
+                    Invoice Memo: {{ invoice_memo }}<br/><br/>
+                    <!-- {{ invoice_memo_2 }}<br/><br/> -->
+                    <table class='table table-striped'>
+                        <thead>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>MSRP Price (USD)</th>
+                        </thead>
+                        <tbody>
+                        {% for i in order.cart.cartitem_set.all %}
+                        <tr class='item-details'>
+                            <td><b>{{ i.item.get_title }}</b></td>
+                            <td>{{ i.quantity }}</td>
+                            <td>{{ i.item.price }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td colspan=2 class='item-details-right'>Total Tax:</td>
+                            <td class='item-details-center'>$ {{ invoice_tax }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan=2 class='item-details-right'>Amount Due Now:</td>
+                            <td class='item-details-center'>$ {{ invoice_amount }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan=2 class='item-details-right'>Amount Paid:</td>
+                            <td class='item-details-center'>$ {{ invoice_amount_paid }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan=2 class='item-details-right'>Current Outstanding Balance:</td>
+                            <td class='item-details-center'>$ {{ invoice_amount_outstanding }}</td>
+                        </tr>
+                        </tbody>
+                    </table><br/><br/>
+
+
+
+                    <div class='records'>
+                        <p>Thank you for your business!<br/><br/>Please print for your records</p>
+                    </div>
+                </div>
+            </div>
+
+    </body>
+</html>

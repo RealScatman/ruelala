@@ -1,0 +1,21 @@
+[
+{
+    "model": "posts.post",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "title": "Organic Milk Now in Stock!",
+        "slug": "organic-milk-now-in-stock",
+        "image": "posts/organic-milk-now-in-stock/organic-milk-now-in-stock-None.jpg",
+        "height_field": 768,
+        "width_field": 768,
+        "content": "Organic Milk Now in Stock!",
+        "views": 0,
+        "draft": false,
+        "publish": "2020-04-03",
+        "updated": "2020-04-03T18:16:38.653Z",
+        "timestamp": "2020-04-03T18:15:45.528Z",
+        "featured": true
+    }
+}
+]

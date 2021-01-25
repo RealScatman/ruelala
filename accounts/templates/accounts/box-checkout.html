@@ -1,0 +1,335 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+{% if not billing_profile %}
+
+
+	<!-- <div class='row'>
+		<div class='col-12 mx-auto mt-4'>
+			<h4><i class="fas fa-lock"></i> Select a Delivery Frequency</h4>
+			<hr/>
+		</div>
+	</div> -->
+
+	<div class='row'>
+		<div class='col-sm-12'>
+		<div class="my-1 p-3 bg-white rounded box-shadow">  
+		{% if box %}
+		<div class='row'>
+		  <div class='col-sm-6 mr-auto'>
+			<div class="card bg-light mb-3">
+				<div class="card-body">
+			  <h5 class="card-title"><i class="fas fa-lock"></i> Select a Delivery Frequency</h5>
+			  <hr/>
+				{% url "accounts:checkout-delivery-frequency" as checkout_delivery_frequency %}
+				{% include 'accounts/form.html' with form=del_freq_form next_url=request.build_absolute_uri action_url=checkout_delivery_frequency delivery_frequency='every_week' %}
+			  </div>
+			</div>
+		  </div>
+		  <div class='col-sm-5'>
+			<div class='card'>
+			  <div class='card-body'>
+				<h4 class='card-title'>Summary</h4>
+				<hr/>
+				  <img class='img-fluid' src="{{ box.subscription.image.url }}" alt="{{ box.subscription.title }} logo">
+				  <p><span class='green-text-md'><i class="fas fa-check-circle"></i></span> {{ box.subscription.title }}<br/>
+					<a class='legal-sm' href="{% url 'account:subscription-list' %}">(click to reselect)</a></p>
+				  <p><b>Total</b> $<span class='cart-subtotal'>{{ box.total|floatformat:2 }} per delivery</span></p>
+				  <p><b>Subscriber</b> {{ box.user.full_name }}</p>
+			  </div>
+			</div>
+		  </div>
+		</div>
+		{% else %}
+		  <div class="text-center">
+			<p class='lead'> Shopping Cart is currently empty!</p>
+			<p><a class='btn btn-lg btn-outline-primary' href='{% url "account:subscription-list" %}'>Browse Options</a></p>
+		  </div>
+		{% endif %}
+		  </div>
+		</div>
+	  </div>
+
+{% else %}
+
+		{% if not object.shipping_address and shipping_address_required %}
+
+		<div class='row'>
+			<div class='col-12 mx-auto mt-4'>
+				<h5 class='lead'>Shipping Address (Step 1 of 3)</h5>
+				<hr/>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-12 col-md-6 mx-auto'>
+				<div class="card bg-light mb-3">
+					<div class="card-body">
+					{% url "checkout_address_create" as checkout_address_create %}
+					{% include 'addresses/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create address_type='shipping' %}
+					</div>
+				</div>
+			</div>
+			<div class='col-12 col-md-6 mx-auto'>
+				<div class="card bg-light mb-3">
+					<div class="card-body">
+					{% url "checkout_address_reuse" as checkout_address_reuse %}
+					{% include 'addresses/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='shipping' action_url=checkout_address_reuse %}
+					</div>
+				</div>
+			</div>
+		</div> 
+
+
+		{% elif not object.billing_address %}
+		<div class='row'>
+			<div class='col-12 mx-auto mt-1'>
+				<h5 class='lead'>Add a Billing Address (Step 2 of 3)</h5>
+				<hr/>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-12 col-md-6 mx-auto'>
+				<div class="card bg-light mb-3">
+					<div class="card-body">
+					{% url "checkout_address_create" as checkout_address_create %}
+					{% include 'addresses/form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create address_type='billing' %}
+					</div>
+				</div>
+			</div>
+			<div class='col-sm-5'>
+				<div class='card'>
+					<div class='card-body'>
+					<h4 class='card-title'>Summary</h4>
+					<hr/>
+						<img class='img-fluid' src="{{ box.subscription.image.url }}" alt="{{ box.subscription.title }} logo">
+						<p><span class='green-text-md'><i class="fas fa-check-circle"></i></span> {{ box.subscription.title }}<br/>
+						<a class='legal-sm' href="{% url 'account:subscription-list' %}">(click to reselect)</a></p>
+						<p><b>Total</b> $<span class='cart-subtotal'>{{ box.total|floatformat:2 }} per delivery</span></p>
+						<p><b>Subscriber</b> {{ box.user.full_name }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% elif not object.delivery_frequency %}
+		<div class='row'>
+			<div class='col-12 mx-auto mt-1'>
+				<h5 class='lead'>Add a Delivery Start Date (Step 3 of 4)</h5>
+				<hr/>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-12 col-md-6 mx-auto'>
+				<div class="card bg-light mb-3">
+					<div class="card-body">
+					{% url "checkout_deliveryfrequency_create" as checkout_deliveryfrequency_create %}
+					{% include 'addresses/delivery-form.html' with form=del_freq_form next_url=request.build_absolute_uri action_url=checkout_deliveryfrequency_create delivery_start='delivery_start' %}
+					</div>
+				</div>
+			</div>
+			<div class='col-sm-5'>
+				<div class='card'>
+				<div class='card-body'>
+					<h4 class='card-title'>Summary</h4>
+					<hr/>
+					<img class='img-fluid' src="{{ box.subscription.image.url }}" alt="{{ box.subscription.title }} logo">
+					<p><span class='green-text-md'><i class="fas fa-check-circle"></i></span> {{ box.subscription.title }}<br/>
+						<a class='legal-sm' href="{% url 'account:subscription-list' %}">(click to reselect)</a></p>
+					<p><b>Total</b> $<span class='cart-subtotal'>{{ box.total|floatformat:2 }} per delivery</span></p>
+					<p><b>Subscriber</b> {{ box.user.full_name }}</p>
+					<p><b>Address</b> {{ object.billing_address.get_address }}</p>
+					<p><b>Delivery Frequency</b> {{ object.billing_address.delivery_frequency }}</p>
+					<p><b>Delivery Day</b> {{ object.billing_address.delivery_day }}</p>
+				</div>
+				</div>
+			</div>
+			<!-- <div class='col-12 col-md-6 mx-auto'>
+				<div class="card bg-light mb-3">
+					<div class="card-body">
+					{% url "checkout_address_reuse" as checkout_address_reuse %}
+					{% include 'addresses/prev_addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='billing' action_url=checkout_address_reuse %}
+					</div>
+				</div>
+			</div> -->
+		</div>
+
+		{% else %}
+			{% if not has_card %}
+				<div class='row'>
+					<div class='col-12 mx-auto mt-4'>
+						<h4>Add Payment Method</h4>
+						<hr/>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col-12 col-md-6 mx-auto'>
+						<div class="card bg-light mb-3">
+					     	<div class="card-body">
+							<!-- enter credit card here -->
+							<div class='stripe-payment-form' data-token='{{ publish_key }}' data-next-url='{{ request.build_absolute_uri }}' data-btn-title='Add Payment Method'></div>
+							</div>
+						</div>
+						<div class="card mb-3">
+							<div class="card-body">
+							  <h5 class="card-title">We accept all major credit cards.</h5>
+							  <p>Our payment process is powered by Stripe, which is a leader in secure payment processing.</p>
+							  </div>
+						</div>
+					</div>
+					<div class='col-sm-5 col-md-6 mx-auto'>
+						<div class='card'>
+						  <div class='card-body'>
+							<h4 class='card-title'>Summary</h4>
+							<hr/>
+							  <img class='img-fluid' src="{{ box.subscription.image.url }}" alt="{{ box.subscription.title }} logo">
+							  <p><span class='green-text-md'><i class="fas fa-check-circle"></i></span> {{ box.subscription.title }}<br/>
+								<a class='legal-sm' href="{% url 'account:subscription-list' %}">(click to reselect)</a></p>
+							  <p><b>Total</b> $<span class='cart-subtotal'>{{ box.total|floatformat:2 }} per delivery</span></p>
+							  <p><b>Subscriber</b> {{ box.user.full_name }}</p>
+							  <p><b>Address</b> {{ object.billing_address.get_address }}</p>
+							  <p><b>Delivery Frequency</b> {{ object.billing_address.delivery_frequency }}</p>
+							  <p><b>Delivery Day</b> {{ object.billing_address.delivery_day }}</p>
+
+						  </div>
+						</div>
+					  </div>
+				</div>
+
+
+			{% else %}
+				{% if object.cart.is_digital %}
+				<div class='row'>
+					<div class='col-12 mx-auto mt-4'>
+					<h5>Finalize Your Subscription (Step 3 of 3)</h5>
+					<hr/>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col-12 col-md-6 mx-auto'>
+						<div class="card mb-3 box-shadow">
+							<div class="card-body">
+								<p>Box Selection: {{ object.box.subscription }}</p>
+								<hr/>
+								<p>Billing Address: {{ object.billing_address.get_address }}</p>
+								<p>Payment Method: {{ billing_profile.default_card }} (<a href="{{ billing_profile.get_payment_method_url }}?next={{ request.build_absolute_uri }}">Change</a>)</p>
+								<hr/>
+								<p> Cart Total: {{ object.box.total }}</p>
+								<!-- <p> Shipping Total: {{ object.shipping_total }}</p> -->
+								<p> Order Total: {{ object.total }}</p>
+								<p><b>Delivery Frequency</b> {{ object.billing_address.delivery_frequency }}</p>
+								<p><b>Delivery Day</b> {{ object.billing_address.delivery_day }}</p>
+							</div>
+							<div class="text-center mb-4">
+								<hr/>
+								<form class='form' method='POST' action="">{% csrf_token %}
+								<button type='submit' class='btn btn-warning'>Finalize Subscription</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class='col-12 col-md-6 mx-auto'>
+						<div class="card mt-1 mb-3">
+					      <div class="card-body">
+							<p>Finalize your subscription now!</p>
+							<ul>
+								<li>Start Bidding</li>
+							</ul>
+							</div>
+							<div class="text-center mb-2">
+								<hr/>
+								<span>Need help?</span>
+								<a href="/about/" class="btn btn-outline-primary">Explore</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% else %}
+				<div class='row'>
+					<div class='col-12 mx-auto mt-4'>
+					<h5>Finalize Your Checkout (Step 3 of 3)</h5>
+					<hr/>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col-sm-12 col-md-6 mx-auto'>
+						<div class='card shadow'>
+						  <div class='card-body'>
+							<h4 class='card-title'>Order Summary</h4>
+							<hr/>
+							  <img class='img-fluid' src="{{ box.subscription.image.url }}" alt="{{ box.subscription.title }} logo">
+							  <p><span class='green-text-md'><i class="fas fa-check-circle"></i></span> {{ box.subscription.title }}<br/>
+								<a class='legal-sm' href="{% url 'account:subscription-list' %}">(click to reselect)</a></p>
+							  <p><b>Total</b> $<span class='cart-subtotal'>{{ box.total|floatformat:2 }} per delivery</span></p>
+							  <p><b>Subscriber</b> {{ box.user.full_name }}</p>
+							  <p><b>Address</b> {{ object.billing_address.get_address }}</p>
+							  <p><b>Payment Method</b> {{ billing_profile.default_card }} (<a href="{{ billing_profile.get_payment_method_url }}?next={{ request.build_absolute_uri }}">Change</a>)</p>
+							  <p><b>Delivery Frequency</b> {{ object.billing_address.delivery_frequency }}</p>
+							  <p><b>Delivery Day</b> {{ object.billing_address.delivery_day }}</p>
+							</div>
+						  <div class="text-center mb-4">
+							<hr/>
+							<form class='form' method='POST' action="">{% csrf_token %}
+							<button type='submit' class='btn btn-warning'>Finalize Checkout</button>
+							</form>
+						</div>
+						</div>
+					  </div>
+					  <div class='col-sm-12 col-md-6 mx-auto'>
+						<div class="card mt-1 mb-3">
+					      <div class="card-body">
+							<h5>Finalize your Subscription Today!</h5>
+							<ul>
+								<li>Start Enjoying Fresh Produce Delivered Weekly!</li>
+								<li>Manage Your Account!</li>
+								<li>Get Time Back in your Business Life!</li>
+							</ul>
+							</div>
+							<div class="text-center mb-2">
+								<hr/>
+								<span>Need help?</span>
+								<a href="/about/" class="btn btn-outline-primary">Explore</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+
+			{% endif %}
+
+		{% endif %}
+
+{% endif %}
+
+{% endblock %}
+
+
+<div class='row'>
+	<div class='col-12 col-md-6 mx-auto'>
+		<div class="card bg-light mb-3">
+			<div class="card-body">
+				<h5 class="card-title">I'm a Returning Customer</h5>
+				{% include 'accounts/snippets/form.html' with form=login_form next_url=request.build_absolute_uri %}
+			</div>
+		</div>
+	</div>
+	<!--
+	<div class='col-12 col-md-6'>
+		Continue as Guest
+		{% url "guest_register" as guest_register_url %}
+		{% include 'accounts/snippets/form.html' with form=guest_form next_url=request.build_absolute_uri action_url=guest_register_url %}
+	</div>
+	-->
+	<div class='col-12 col-md-6 mx-auto'>
+		<div class="card mb-3">
+			  <div class="card-body">
+			<h5 class="card-title">I'm a New Customer</h5>
+			<p>Creating an account is fast, easy, and free.  You'll be able to manage orders, manage account information, and more!</p>
+			{% url "register" as register_url %}
+			{% include 'accounts/snippets/form.html' with form=register_form next_url=request.build_absolute_uri action_url=register_url %}
+			<!-- <a class="btn btn-primary btn-sm" href='{% url "register" %}' role="button">Register Now</a> -->
+			</div>
+		</div>
+	</div>
+
+</div>

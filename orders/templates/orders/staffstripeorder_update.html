@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class='row'>
+	<div class='col-12 mx-auto mt-4 mb-1'>
+		<h5 class='title-heavy-txt'><i class="fas fa-briefcase"></i> Order #{{ object.order_id }}</h5>
+	</div>
+</div>
+<div class='row'>
+	<div class='col-12 col-md-7 mx-auto'>
+		<div class="card bg-white shadow mb-3">
+			<div class="card-body">
+				<!-- <h5 class="card-title">Order ID: {{ object.order_id }}</h5> -->
+				<p><b>Purchased Item(s):</b> {% for product in object.box.subscription.products.all %}{{ product }} x {{ product.quantity }} {% if not forloop.last %}, {% endif %}{% endfor %}</p>
+				<hr/>
+				<p><b>Subtotal:</b> ${{ object.box.total }}</p>
+				<p> Shipping Total: ${{ object.shipping_total }}</p>
+				<form method='POST'> {% csrf_token %}
+					{{ form }}
+					<div class="btn-group" role="group" aria-label="Basic example">
+						<button type='submit' class='btn btn-primary btn-sm my-3'>Save</button>
+						<a class='btn btn-link btn-sm my-3' href='{{ object.staff_get_absolute_url }}'>Go Back</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class='col-12 col-md-5 mx-auto'>
+		<div class="card shadow mt-1 mb-3">
+			<div class="card-body">
+			<p><span class='title-heavy-txt'><i class="fas fa-user-circle"></i> {{ object.billing_profile }}</span><br/><span class='text-muted'>{{ object.billing_address.get_short_address }}</span></p>
+			<a class="btn btn-warning btn-sm" href='/admin/accounts/user/'>User Admin</a>
+			</div>
+		</div>
+		<div class="card shadow mt-1 mb-3">
+	      <div class="card-body">
+			<p>Fullfilling recent orders is easy! Grab the shipping address, find the users name, pack up the goods and then update the order status!</p>
+			<ul>
+				<li>Obtain user details and shipping info</li>
+				<li>Pack in the products</li>
+				<li>Update Order Status</li>
+				<li>Ship package! Done!</li>
+			</ul>
+			</div>
+			<div class="text-center mb-2">
+				<hr>
+				<span>Need help?</span>
+				<a href="/about/" class="btn btn-outline-primary">Click Here</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class='row mb-1 mt-1'>
+	<div class='col-12'>
+		<h4 class='title-heavy-txt'>This Weeks Sales</h4>
+		<hr/>
+	</div>
+</div>
+<div class='row my-3'>
+	<div class='col-sm-12 col-md-8'>
+		<canvas class='rl-render-chart' id="thisWeekSales" data-type='week' width="400" height="400"></canvas>
+	</div>
+	<div class='col-sm-12 col-md-4'>
+		<h5 class='title-heavy-txt'>Todays Sales</h5>
+		<hr/>
+		<p>Recent Total: {% if today.recent_data.order_total__sum %}  ${{ today.recent_data.order_total__sum }} {% else %} No Data {% endif %}</p>
+		<ul>
+		{% for order in today.recent|slice:":5" %}
+			<li class='my-3'>Order <a href='{{ order.staff_get_absolute_url }}'>#{{ order.order_id }}</a><br/>
+			${{ order.order_total }}<br/>
+			{{ order.updated|timesince }} ago</li>
+		{% endfor %}
+		</ul>
+</div>
+<hr/>
+<div class='row my-5'>
+	<div class='col-12'>
+		<h4 class='title-heavy-txt'>Previous Four Weeks Sales</h4>
+		<hr/>
+	</div>
+	<div class='col-sm-12 col-md-8'>
+		<canvas class='rl-render-chart' id="fourWeekSales" data-type='4weeks' width="400" height="400"></canvas>
+	</div>
+	<div class='col-sm-12 col-md-4'>
+		<p>Recent Total: ${{ last_four_weeks.recent_data.order_total__sum }}</p>
+		<p>Paid Totals: ${{ last_four_weeks.paid_data.order_total__sum }}</p>
+	</div>
+</div>
+{% endblock %}

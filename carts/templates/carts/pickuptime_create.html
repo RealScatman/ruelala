@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block head_extra %} 
+{{ form.media }}
+
+{% endblock head_extra %}
+
+
+{% block content %}
+<div class='row'>
+	<div class='col-sm-12 col-md-6 mt-1'>
+		<div class='card shadow'>
+			<div class='card-body'>
+				<h4>Create a New Pickup Time</h4><hr/>
+
+				<form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
+				{{ form.as_p }}
+				<input type='submit' class='btn btn-primary' value='Create Pickup Time' />
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class='col-sm-12 col-md-6 mt-1'>
+		<div class='card shadow'>
+			<div class='card-body'>
+				<h5 class='card-title'>Start creating new Pickup Times for your Customers!</h5>
+				<p>Customize the available timeslots each day!<br/><br/>ex. 2020-03-20 / 12:00:00</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}

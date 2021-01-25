@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block style %}
+input[type=number] {
+	width: 50px;
+}
+{% endblock %}
+
+<script>
+{% block jquery %}
+$(".item-qty").change(function(){
+	// $(this).next(".btn-update").fadeIn();
+	// event.preventDefault();
+	// .prev(h1)
+	var item = $(this).prev("input[type='hidden']").val();
+	var qty = $(this).val()
+	var data = {
+		item: item,
+		qty: qty
+	}
+	console.log(data);
+	$.ajax({
+		type: "GET", // "POST"
+		url: "{% url 'cart' %}",
+		data: data,
+		success: function(data) {
+			$("#jquery-message").text("Added " + data.item_added + " Deleted " + data.deleted)
+			if (data.deleted){
+				$("#item-"+item).fadeOut();
+				$("#subtotal").text(data.subtotal);
+				$("#taxtotal").text(data.tax_total);
+				$("#carttotal").text(data.cart_total);
+			} else {
+				$("#item-line-total-"+item).text(data.line_total);
+				$("#subtotal").text(data.subtotal);
+				$("#taxtotal").text(data.tax_total);
+				$("#carttotal").text(data.cart_total);
+			}
+			if (data.total_items == 0 ) {
+				$(".table").fadeOut()
+				var template = "{% include 'carts/empty_cart.html' %}";
+				$(".main-content").html(template);
+			}
+			var message = ""
+			if (data.item_added) {
+				message = "New item added"
+			} else if (data.deleted){
+				message = "Item removed"
+			} else {
+				message = "Item updated"
+			}
+			showFlashMessage(message);
+			updateCartItemCount()
+			}, 
+		error: function(response, error) {
+			// console.log(response)
+			// console.log(error)
+			$("#add-form").submit()
+		}
+	})
+});
+{% endblock %}
+</script>
+
+{% block content %}
+
+
+<div class='row main-content'>
+
+{% if object.cartitem_set.count < 1 %}
+
+{% include "carts/empty_cart.html" %}
+<div class='container'>
+	<div class='row'>
+		<div class='col-sm-12'>
+			<h4 class='make-text-sm'>Recommended Products <a class="btn btn-outline-dark text-uppercase browse" href="{% url 'products:product-variations-list' %}"> Browse All</a></h4>
+			<hr/>
+		</div>
+		<div class='col-sm-12'>
+		<!-- {% include "products/products.html" with object_list=related_products col_class_set="col-sm-2" %} -->
+		{% include "products/variations.html" with object_list=related_variations col_class_set="col-sm-2" %}
+		</div>
+	</div>
+</div>
+{% else %}
+
+<div class='col-sm-8 mx-auto'>
+
+<div class='card'>
+<div class='card-body'>
+<h4>Your Shopping Cart</h4>
+<table class='table table-sm'> 
+	<thead class="thead-dark">
+		<tr>
+		  <th scope="col">Item</th>
+		  <th scope="col">Qty</th>
+		  <th scope="col">Price</th>
+		  <th scope="col">edit</th>
+		</tr>
+	  </thead>
+<tbody>
+{% for item in object.cartitem_set.all %}
+
+<tr id='item-{{ item.item.id }}'>
+
+<td>{{ item.item.get_title }}</td>
+
+
+<td>
+	<form action="." method="GET" >
+		<input type='hidden' name='item' value='{{ item.item.id }}' />
+		<input type='number' class='item-qty' name='qty' value='{{ item.quantity }}' />
+		<input type='submit' class='btn-update btn btn-link' value='Update item' style='display:none;'/>
+	</form>
+</td>
+<td id='item-line-total-{{ item.item.id }}'>{{ item.line_item_total }}</td>
+<td class='text-center' ><a href='{{ item.remove }}'>X</a></td>
+
+</tr>
+
+{% endfor %}
+
+
+<tr>
+	<td  colspan='4' class='text-right'>Subtotal: <span id='subtotal'>{{ object.subtotal }}</span></td>
+</tr>
+
+<tr>
+	<td colspan='4' class='text-right'>Tax (Estimated): <span id='taxtotal'>{{ object.tax_total }}</span></td>
+</tr>
+
+<tr>
+	<td colspan='4' class='text-right'><b>Total:</b> <span id='carttotal'>{{ object.total }}</span></td>
+</tr>
+
+
+<tr>
+	<td colspan='4' class='text-right'><a class='btn btn-warning' href="{% url 'checkout' %}">Checkout </a></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+{% endif %}
+
+</div>
+{% endblock %}

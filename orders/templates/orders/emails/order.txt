@@ -1,0 +1,11 @@
+Hello,
+
+{{ email }} Thank you for your recent order at Beaker.Life!
+
+Your order ID is: {{ order }}
+
+{{ path }}
+
+Thank you,
+
+Beaker.Life 

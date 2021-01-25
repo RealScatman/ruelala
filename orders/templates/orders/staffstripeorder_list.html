@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class='row mt-3 mb-3'>
+    <div class='col-sm-12'>
+        <div class="my-1 p-3 bg-white rounded shadow">
+            <h5>All Orders <span class='text-muted'>/ {{object_list.count }} found</span></h5>
+            <span class=''><small>Staff User: (<a  href="{% url 'accounts:user-home' %}" class=''> {{ request.user.email }} </a>) {% if request.user.is_sub_member %}<span class="badge badge-success ml-1">Subscriber <i class="fas fa-check"></i></span>{% endif %}</small></span>
+        </div>
+    </div>
+</div>
+
+<div class='row'>
+	<div class='col'>
+		<div class="my-1 p-3 bg-white rounded shadow">
+			<table class='table table-sm'>
+				<thead><th>Order ID</th><th>Customer</th><th>Order Date</th><th>Total</th><th>Status</th></thead>
+
+				<tbody>
+					{% for object in object_list %}
+						<tr>
+							<td><a href='{{ object.staff_get_absolute_url }}'>{{ object.order_id }}</a></td>
+							<td>{{ object.billing_profile }}</td>
+							<td>{{ object.timestamp }}</td>
+							<td>${{ object.total }}</td>
+							<td>{{ object.get_status }}</td>
+						</tr>
+					{% empty %}
+					<tr><td colspan="3"><p class='lead'>No Orders yet.</p></td></tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

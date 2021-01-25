@@ -1,0 +1,21 @@
+  
+{% extends "base.html" %}
+
+{% block head_extra %} 
+{{ form.media }}
+
+{% endblock head_extra %}
+
+
+{% block content %}
+<div class='col-sm-6 col-sm-offset-3'>
+	<br/>
+	<h4>News Post Creation Form</h4><hr/>
+
+	<form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
+	{{ form.as_p }}
+	<input type='submit' class='btn btn-primary' value='Create Post' />
+	</form>
+</div>
+
+{% endblock content %}

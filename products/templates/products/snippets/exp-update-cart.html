@@ -1,0 +1,8 @@
+<form class='form-exp-product-ajax' method='GET' action="{% url 'cart' %}" data-end-point="{% url 'cart' %}" cart-item='{{ var_obj.id }}' item-qty='1'>
+    <p id='jquery-message' class='lead'></p>
+    <input type="hidden" name='item' value='{{ var_obj.id }}' />
+    <input type='hidden' name='qty' value='1' />
+    <span class='submit-span'>
+        <input id='submit-btn' type='submit' value='Add to Cart' class='btn btn-dark-orange btn-block shadow' />
+    </span>    
+</form>

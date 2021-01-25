@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+<script>
+    {% block jquery %}
+        // updateCartTime();
+
+        // ajax add to cart
+        // $("#submit-btn").click(function(event){
+        //     event.preventDefault();
+        //     var formData = $("#add-pickup-form").serialize();
+        //     console.log("formData", formData);
+        //     $.ajax({
+        //         type: "GET", // "POST"
+        //         url: "{% url 'cart-pickup' %}",
+        //         data: formData,
+        //         success: function(data) {
+        //             showFlashMessage(data.flash_message);
+        //             console.log("show flash");
+        //             updateCartTime();
+        //         }, 
+        //         error: function(response, error) {
+        //             // console.log(response)
+        //             // console.log(error)
+        //             $("#add-pickup-form").submit()
+        //         }
+        //     })
+        //     // $("#add-form").submit()
+        // })
+
+
+    {% endblock %}
+</script>
+
+
+
+{% block content %}
+
+
+<div class='row'>
+    <div class='col-sm-12 mt-2'>
+        <h4 class='title-heavy-txt'>Choose an Available Timeslot{% if request.user.is_staff %}<span class='float-right'><a class='btn btn-sm btn-danger' href="{% url 'cart-pickup-create' %}">Add New Pickup Timeslot</a></span>{% endif %}</h4>
+        <hr/>
+    </div>
+</div>
+<div class='row'>
+        <div class='col-sm-12'>
+            <h5>Today</h5>
+        </div>
+        {% for obj in object_list %}
+            <div class='col-sm-6 col-md-4 my-3'>
+                <div class="card shadow">
+                  <div class="card-body">
+                    <form id='add-pickup-form' method='GET' action="{% url 'cart-pickup' %}">
+                    <h4 id='pickup-date-time' class="card-title">{{ obj.pickup_date }}</h4> 
+                     <h5>Timeslot: {{ obj.timeslot }}</h5>
+                     <br/>
+                        {% if obj.count > 5 %}
+                        <input value='Not Available' class='btn btn-primary disabled btn-block' />
+                        {% else %}
+                        <input id='submit-btn' type='submit' value='Select' class='btn btn-primary btn-block' />
+                        {% endif %}
+                        <input type="hidden" name='pickup-date-time' value='{{ obj.id }}' />
+                    </form>
+                  </div>
+                </div>
+            </div>
+        {% empty %}
+        <div class='col-sm-12'>
+         <p class='text-muted'>No Pickup Times available...</p>
+        </div>
+        {% endfor %}
+</div>
+<div class='row'>
+    <div class='col-sm-12'>
+    <h5>Tomorrow</h5>
+    </div>
+    {% for obj in tomorrow_qs %}
+        <div class='col-sm-6 col-md-4 my-3'>
+            <div class="card shadow">
+            <div class="card-body">
+                <form id='add-pickup-form' method='GET' action="{% url 'cart-pickup' %}">
+                <h4 id='pickup-date-time' class="card-title">{{ obj.pickup_date }}</h4> 
+                <!-- <small>{{ obj.pickup_date }}</small><br/> -->
+                <h5>Timeslot: {{ obj.timeslot }}</h5>
+                <br/>
+                <input id='submit-btn' type='submit' value='Select' class='btn btn-primary btn-block' />
+                <input type="hidden" name='pickup-date-time' value='{{ obj.id }}' />
+                </form>
+            </div>
+            </div>
+        </div>
+    {% empty %}
+    <div class='col-sm-12'>
+    <p class='text-muted'>No Pickup Times available...</p>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

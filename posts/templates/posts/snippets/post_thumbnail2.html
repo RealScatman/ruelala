@@ -1,0 +1,13 @@
+{% load static %}
+
+<li class="media">
+	{% if post.image %}
+		<a href="{{ post.get_absolute_url }}">
+        <br/>
+  			<img class="img-fluid rounded" style="width: 9rem;" src="{{ post.image.url }}" data-srcset="" alt="{{ post.title }}">
+  		</a>
+  	{% endif %}
+  <div class="media-body">
+    <p class="ml-2 mt-4 legal-sm"> <a href="{{ post.get_absolute_url }}"><b>{{ post.title }}</b></a><br/><span class='text-muted'>{{ post.timestamp|date }}</span></p>
+  </div>
+</li>

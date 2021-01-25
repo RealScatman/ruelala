@@ -1,0 +1,11 @@
+<div class='row'>
+    {% for growler in object_list %}
+        <div class='col-6 col-xs-4 col-md-4 col-lg-4 {{ col_class_set }}'>
+        {% include "growlers/growler_thumbnail.html" with growler=growler price="True" %}
+        </div>
+        {% if not col_class_set %}
+    {% cycle '' '' '</div><div class="row">' %}
+    {% endif %}
+    {% endfor %}
+    
+</div>

@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} {{ block.super }} | Posts {% endblock title %}
+
+{% block style %}
+
+.text-bigger-2 {
+  font-size: 25px;
+}
+
+#div2 {
+  position: absolute;
+  top: 0;
+  /* just used to show how to include the margin in the effect */
+  margin-top: 20px;
+  /* border-top: 1px solid purple; */
+  padding-top: 19px;
+  width: 92%;
+}
+
+#div2.fixed {
+  position: fixed;
+  top: 0;
+  width: 29%;
+  z-index: 1;
+}
+
+  @media (max-width: 480px) {
+    #div2 {
+	    position: unset;
+	  }  
+    #div2.fixed {
+      position: relative;
+      width: 100%;
+    }
+  }
+
+/* footer {
+  position: relative;
+} */
+
+
+{% endblock style %}
+
+
+{% block content %}
+
+
+  <div class='row mt-3'>
+    <div class='col-12'>
+      <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-light">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="news/">{{ title }}</li>
+          </ol>
+      </nav>
+    </div>	
+  </div>
+    <div class='row'>
+        <div class='col-sm-12 col-md-7 mx-auto mt-1'>
+            <h3><i class="far fa-list-alt"></i> {{ title }}</h3><hr/>
+            <!-- <form method='GET' action=''>
+                <input type='text' name='q' placeholder='Search posts' value='{{ request.GET.q }}'/>
+                <input type='submit' value='Search' />
+            </form><br/><br/> -->
+            {% for obj in object_list %}
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="thumbnail">
+                    {% if obj.image %}
+                     <img src='{{ obj.image.url }}' class='img-thumbnail'/><br/><br/>
+                    {% endif %}
+                  <div class="caption">
+                    <h3><a href='{{ obj.get_absolute_url }}'><span class='maroon-text'>{{ obj.title }}</span></a></h3>
+                    {% if obj.draft %}<h3>Staff only: Draft</h3>{% endif %} {% if obj.publish > today %}<h3>Staff Only: Future Post</h3>{% endif %} 
+                    <p class='text-muted'>{{ obj.publish }} {% if request.user.is_staff %} <span class='float-right' style='color:red;'><i class="far fa-eye"></i> {{ obj.views }} </span>{% endif %}</p>
+                    <p class='content-markdown'>{{ obj.content|truncatechars:120 }}</p>
+                    <p><a href="{{ obj.get_absolute_url }}" class="btn btn-primary" role="button">View <i class="fas fa-angle-double-right"></i></a></p>
+                  </div>
+                  <hr/>
+                </div>
+              </div>
+            <hr/>
+            </div>
+            {% endfor %}
+
+
+            <div class="pagination">
+                <span class="step-links">
+                    {% if object_list.has_previous %}
+                        <a href="?{{ page_request_var }}={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i class="fas fa-angle-left"></i> Previous</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}
+                    </span>
+
+                    {% if object_list.has_next %}
+                        <a href="?{{ page_request_var }}={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next <i class="fas fa-angle-right"></i></a>
+                    {% endif %}
+                </span>
+            </div>
+
+
+
+
+        </div>
+        <div class='col-sm-12 col-md-5 mx-auto mt-3'>
+          <div class='card'>
+            <div class='card-body'>
+              <p class='lead text-align-center'>{{ signup_title }}</p>
+      
+              <form method='POST' action=''>{% csrf_token %}
+      
+              {{ form|crispy }}
+              
+              {% if signed_up %}
+      
+              {% else %}
+      
+              <input class='btn btn-dark btn-block' type='submit' value='Sign Up' />
+              
+              {% endif %}
+              </form>
+            </div>
+          </div>
+          <h5 class='mt-3'>Featured Posts</h5>
+          <hr/>
+          {% for post in featured_posts %}
+          <div class='row'>
+            <div class='col-5 col-sm-4 mb-2'>
+              <div class='vid-container'>
+                <img src='{{ post.image.url }}' class='img-fluid rounded' alt='{{ post.title }}'/>
+              </div>
+            </div>
+            <div class='col-6 col-sm-8'>
+              <h5 class='mb-2'><a href="{{ post.get_absolute_url }}"><span class='maroon-text'>{{ post.title }}</span></a></h5>
+              <p class='legal-sm text-muted'>{{ post.content|truncatewords:30 }}<br/>
+            </div>
+          </div>
+          {% endfor %}
+          </div>
+    </div>
+
+
+{% endblock content %}

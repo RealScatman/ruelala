@@ -1,0 +1,322 @@
+{% load staticfiles %}
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- adding JqueryUI for a Week DatePicker -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->
+    <!-- allows news posts markdown links to show properly on regular render of posts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.5.0/marked.min.js"></script>
+    <script src="https://js.braintreegateway.com/v2/braintree.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <!-- jquery-confirm JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+    <!-- js Render -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.90/jsrender.min.js'></script>
+    {% include 'base/js_templates.html' %}
+    <!-- Chart.js -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js'></script>
+    <!-- <script src="{% static 'js/bootstrap.min.js' %}"></script> -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- Django Secure AJAX JS -->
+    <script src='{% static "js/csrf.ajax.js" %}'></script>
+    <script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/ecommerce2.main.js' %}"></script>
+    <script src="{% static 'js/ecommerce2.sales.js' %}"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgH51hX5bufXCtj7HJAU4FlNsCyHTinik&callback=initMap"
+    type="text/javascript"></script>
+    <!-- <script type='text/javascript'>
+        function updateElementIndex(el, prefix, ndx) {
+            var id_regex = new RegExp('(' + prefix + '-\\d+)');
+            var replacement = prefix + '-' + ndx;
+            if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+            if (el.id) el.id = el.id.replace(id_regex, replacement);
+            if (el.name) el.name = el.name.replace(id_regex, replacement);
+        }
+        function cloneMore(selector, prefix) {
+            var newElement = $(selector).clone(true);
+            var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+            newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
+                var name = $(this).attr('name').replace('-' + (total-1) + '-', '-' + total + '-');
+                var id = 'id_' + name;
+                $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+            });
+            newElement.find('label').each(function() {
+                var forValue = $(this).attr('for');
+                if (forValue) {
+                  forValue = forValue.replace('-' + (total-1) + '-', '-' + total + '-');
+                  $(this).attr({'for': forValue});
+                }
+            });
+            total++;
+            $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+            $(selector).after(newElement);
+            var conditionRow = $('.form-row:not(:last)');
+            conditionRow.find('.btn.add-form-row')
+            .removeClass('btn-success').addClass('btn-danger')
+            .removeClass('add-form-row').addClass('remove-form-row')
+            .html('<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>');
+            return false;
+        }
+        function deleteForm(prefix, btn) {
+            var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+            if (total > 1){
+                btn.closest('.form-row').remove();
+                var forms = $('.form-row');
+                $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+                for (var i=0, formCount=forms.length; i<formCount; i++) {
+                    $(forms.get(i)).find(':input').each(function() {
+                        updateElementIndex(this, prefix, i);
+                    });
+                }
+            }
+            return false;
+        }
+        $(document).on('click', '.add-form-row', function(e){
+            e.preventDefault();
+            cloneMore('.form-row:last', 'form');
+            return false;
+        });
+        $(document).on('click', '.remove-form-row', function(e){
+            e.preventDefault();
+            deleteForm('form', $(this));
+            return false;
+        });
+    </script> -->
+     <script>
+     function updateCartItemCount(){
+     	var badge = $("#cart-count-badge");
+     	$.ajax({
+     		type: "GET",
+     		url: "{% url 'item_count' %}",
+     		success: function(data){
+     			badge.text(data.count);
+     			console.log(data.count);
+     		},
+     		error: function(response, error) {
+     			console.log(response)
+     			console.log(error);
+     		}
+     	})
+     }
+     function updateCartTime(){
+     	var badge = $("#cart-time-badge");
+        var cartTimeText = $("#cart-time-text");
+        var cartTimeTextDefault = $("#cart-time-text-default");
+     	$.ajax({
+     		type: "GET",
+     		url: "{% url 'cart_time' %}",
+     		success: function(data){
+                cartTimeTextDefault.text("Reserve a time slot");
+                cartTimeText.text("Your time slot");
+     			badge.text(data.cart_time);
+     			// console.log(data.cart_time);
+     		},
+     		error: function(response, error) {
+     			console.log(response)
+     			console.log(error);
+     		}
+     	})
+     }
+     $(document).ready(function(){
+        var input = $("#id_delivery_start");
+        // console.log(input);
+        
+        $(".content-markdown").each(function(){
+
+            var content = $(this).text()
+            // console.log(content)
+            var markedContent = marked(content)
+            // console.log(markedContent)
+            $(this).html(markedContent)
+
+            })
+        // var productForm = $(".form-product-ajax")
+        // var oProductForm = $("#add-form")
+        var oProductForm = $(".form-exp-product-ajax")
+        // id="add-form"
+		// ajax add to cart
+		oProductForm.submit(function(event){
+			event.preventDefault();
+            var thisForm = $(this)
+            // var actionEndPoint = thisForm.attr("action"); // API Endpoint?
+            var actionEndPoint = thisForm.attr("data-end-point");
+            var cartItem = thisForm.attr("cart-item");
+            var itemQty = thisForm.attr('item-qty');
+            var httpMethod = thisForm.attr("method");
+            var formData = thisForm.serialize();
+			// var formData = $("#add-form").serialize();
+			console.log(formData);
+			$.ajax({
+				method: httpMethod, // "POST"
+				url: actionEndPoint,
+				data: formData,
+				success: function(data) {
+                    var submitSpan = thisForm.find(".submit-span")
+                    submitSpan.html("<a class='btn btn-success btn-block' href='/cart/'>Proceed</a><p class='text-center mt-1 text-muted legal-sm'>in your cart</p>")
+                    // submitSpan.html("<div class='input-group'> <div class='input-group-prepend mr-2'><a class='btn btn-success btn-block' href='/cart/?item=" + cartItem + "&qty=1&delete=True'>-</a></div><input class='form-control text-center' type='number' name='qty' value='1' /><div class='input-group-append ml-2'><a href='/cart/?item=" + cartItem + "&qty=1&delete=True' class='btn btn-success btn-block'>+</a></div></div><p class='text-center mt-1'>in your cart</p>")
+                    // submitSpan.html("<div class='btn-group'> <a class='btn btn-success btn-block' href='/cart/'>Proceed</a> <a href='/cart/?item=" + cartItem + "&qty=1&delete=True' class='btn btn-link'> Remove?</a></div>")
+                    // if (data.added){
+                    // submitSpan.html("<div class='btn-group'> <a class='btn btn-success btn-block' href='/cart/'>Proceed</a> <button type='submit' class='btn btn-link'> Remove?</button></div>")
+                    // } else {
+                    // submitSpan.html("<button type='submit' class='btn btn-dark-orange btn-block'> Add to Cart</button>")
+                    // }
+					showFlashMessage(data.flash_message);
+					console.log("show flash");
+					updateCartItemCount();
+				}, 
+				error: function(response, error) {
+					// console.log(response)
+					// console.log(error)
+					$("#add-form").submit()
+				}
+			})
+			// $("#add-form").submit()
+		})
+        // var oProductQtyForm = $(".form-exp-qty-product-ajax")
+        // // id="add-form"
+		// // ajax add to cart
+		// oProductQtyForm.submit(function(event){
+		// 	event.preventDefault();
+        //     var thisForm = $(this)
+        //     // var actionEndPoint = thisForm.attr("action"); // API Endpoint
+        //     var actionEndPoint = thisForm.attr("data-end-point");
+        //     var cartItem = thisForm.attr("cart-item");
+        //     var itemQty = thisForm.attr('item-qty');
+        //     var httpMethod = thisForm.attr("method");
+        //     var formData = thisForm.serialize();
+		// 	// var formData = $("#add-form").serialize();
+		// 	console.log(formData);
+		// 	$.ajax({
+		// 		method: httpMethod, // "POST"
+		// 		url: actionEndPoint,
+		// 		data: formData,
+		// 		success: function(data) {
+        //             var submitSpan = thisForm.find(".submit-span")
+        //             // submitSpan.html("<a class='btn btn-success btn-block' href='/cart/'>Proceed</a>")
+        //             submitSpan.html("<form class='form-exp-qty-product-ajax'><div class='input-group'> <div class='input-group-prepend mr-2'><a class='btn btn-success btn-block' href='/cart/?item=" + cartItem + "&qty=1&delete=True'>-</a></div><input class='form-control text-center' type='number' name='qty' value='1' /><div class='input-group-append ml-2'><a href='/cart/?item=" + cartItem + "&qty=1&delete=True' class='btn btn-success btn-block'>+</a></div></div><p class='text-center mt-1'>in your cart</p></form>")
+        //             // submitSpan.html("<div class='btn-group'> <a class='btn btn-success btn-block' href='/cart/'>Proceed</a> <a href='/cart/?item=" + cartItem + "&qty=1&delete=True' class='btn btn-link'> Remove?</a></div>")
+        //             // if (data.added){
+        //             // submitSpan.html("<div class='btn-group'> <a class='btn btn-success btn-block' href='/cart/'>Proceed</a> <button type='submit' class='btn btn-link'> Remove?</button></div>")
+        //             // } else {
+        //             // submitSpan.html("<button type='submit' class='btn btn-dark-orange btn-block'> Add to Cart</button>")
+        //             // }
+		// 			showFlashMessage(data.flash_message);
+		// 			console.log("show flash");
+		// 			updateCartItemCount();
+		// 		}, 
+		// 		error: function(response, error) {
+		// 			// console.log(response)
+		// 			// console.log(error)
+		// 			$("#add-form").submit()
+		// 		}
+		// 	})
+		// 	// $("#add-form").submit()
+		// })
+
+        $(document.body).on("click", ".filter-modal", function(event){
+            event.preventDefault()
+            var this_ = $(this)
+            $("#filterModal").modal({})
+            $("#filterModal").on("shown.bs.modal", function(){
+            $('textarea').focus()
+            })
+        })
+     	
+        updateCartItemCount()
+        updateCartTime()
+        // Cart + Add Products
+        var productForm = $(".form-product-ajax") // #form-product-ajax  
+        productForm.submit(function(event){
+            event.preventDefault();
+            // console.log("Form is not sending")
+            var thisForm = $(this)
+            // var actionEndPoint = thisForm.attr("action"); // API Endpoint?
+            var actionEndPoint = thisForm.attr("data-end-point");
+            var httpMethod = thisForm.attr("method");
+            var formData = thisForm.serialize();
+            $.ajax({
+            url: actionEndPoint,
+            method: httpMethod,
+            data: formData,
+            success: function(data){
+                var submitSpan = thisForm.find(".submit-span")
+                if (data.added){
+                submitSpan.html("<div class='btn-group'> <a class='btn btn-success' href='/account/subscriptions/setup'>Proceed</a> <button type='submit' class='btn btn-link'> Remove?</button></div>")
+                } else {
+                submitSpan.html("<button type='submit' class='btn btn-primary'> Select Box</button>")
+                data.productQty = 0
+                }
+                var navbarCount = $(".navbar-cart-count")
+                navbarCount.text(data.boxItemCount)
+
+                var navbarSubtotal = $(".navbar-cart-subtotal")
+                navbarSubtotal.text(data.boxSubtotal)
+
+                var currentPath = window.location.href
+
+                if (currentPath.indexOf("box") != -1) {
+                refreshCart()
+                console.log('turn on box selection refresh...')
+                }
+            },
+            error: function(errorData){
+                console.log("error occuring")
+                console.log(errorData)
+            }
+            })
+        })
+        function refreshCart(){
+            console.log("in current cart")
+            var cartTable = $(".cart-table")
+            // new
+            var cartNavbar = $(".navbar-cart")
+            // new
+            var cartBody = cartTable.find(".cart-body")
+            //cartBody.html("<h1>Changed</h1>")
+            var productRows = cartBody.find(".cart-product")
+            var currentUrl = window.location.href
+            var refreshCartUrl = '/api/box/';
+            var refreshCartMethod = "GET";
+            var data = {};
+            $.ajax({
+            url: refreshCartUrl,
+            method: refreshCartMethod,
+            data: data,
+            success: function(data){
+                //console.log("success")
+                //console.log(data)
+                var hiddenCartItemRemoveForm = $(".cart-item-remove-form")
+                if (data.products.length >0){
+                productRows.html(" ")
+                i = data.products.length
+                $.each(data.products, function(index, value){
+                    console.log(value)
+                    var newCartItemRemove = hiddenCartItemRemoveForm.clone()
+                    newCartItemRemove.css("display", "block")
+                    // newCartItemRemove.removeClass("hidden-class")
+                    newCartItemRemove.find(".cart-item-product-id").val(value.id)
+                    cartBody.prepend("<tr><th scope=\"row\">" + i + "</th><td colspan-3><a href='" + value.url + "'>" + value.name + "</a>" + newCartItemRemove.html() + "</td><td>" + value.quantity + "</td><td>" + value.price + "</td></tr>")
+                    i --
+                })
+                cartBody.find(".cart-subtotal").text(data.subtotal)
+                cartBody.find(".cart-total").text(data.total)
+                cartNavbar.find(".navbar-cart-subtotal").text(data.subtotal)
+                } else {
+                window.location.href= currentUrl
+                }
+            },
+            error: function(errorData){
+                console.log("error")
+                console.log(errorData)
+            }
+            })
+        }
+     })
+     </script>

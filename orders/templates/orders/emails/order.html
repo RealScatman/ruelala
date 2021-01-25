@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <style type="text/css">
+
+            .template-title {
+                font-weight: 200;
+                font-size: 28px;
+                text-align: right;
+                color: #007cae;
+            }
+
+            .invoice-info {
+                font-weight: 200;
+                font-size: 14px;
+                text-align: right;         
+            }
+
+            .company-source {
+                font-weight: 200;
+                font-size: 14px;
+                text-align: left;
+            }
+
+            .company-address {
+                font-size: 9px;
+                text-align: left;
+            }
+
+            .invoice {
+                font-weight: 200;
+                font-size: 14px;
+            }
+
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+
+            .bill-bold {
+                font-weight: 300;
+            }
+
+            .records {
+                font-size: 18px;
+                font-weight: 100;
+                text-align: center;
+            }
+
+            .item-details {
+                text-align: center;
+            }
+
+            .item-details-center {
+                font-weight: bold;
+                text-align: center;
+            }
+
+            .item-details-right {
+                font-weight: bold;
+                text-align: right;
+            }
+
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;  
+            }
+
+            .title span {
+                color: #007cae;
+            }
+
+            .details {
+                padding: 10px 20px 0px 20px;
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+
+            table, th, td {
+              border: 1px solid black;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+        <div class='company-source'>
+            <h4>Beaker Life, LLC</h4>
+            <p class='company-address'>304 Tupelo Grove<br/>
+            Ambler, PA 19002<br/>
+            (215) 313-4362</p>
+        </div>
+
+        <div class='template-title'>
+            <h2>Order Receipt</h2>
+        </div>
+        <div class='invoice-info'>
+            <p>Order #{{ order }}<br/>
+            Order Date: {{ invoice_time }}</p>
+        </div>
+        <div class='invoice'>
+                <div class='details'>
+                    Billed To: <br/><br/>
+                    {{ user_name }}<br/>
+                    {{ email }}<br/>
+                    {{ billing_address_street }}<br/>
+                    {{ billing_address_city }}, {{ billing_address_state }} {{ billing_address_zipcode }}<br/><br/>
+
+                    Order Total:  ${{ order_total }}<br/><br/>
+                    <table class='table table-striped'>
+                            <thead>
+                                <th>Item</th>
+                                <th>Quantity</th>
+                                <th>MSRP Price (USD)</th>
+                            </thead>
+                            <tbody>
+                            {% for i in cart_items %}
+                            <tr class='item-details'>
+                                <td><b>{{ i.item.get_title }}</b></td>
+                                <td>{{ i.quantity }}</td>
+                                <td>{{ i.item.price }}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td colspan=2 class='item-details-right'>Total Tax:</td>
+                                <td class='item-details-center'>$ {{ order_tax }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan=2 class='item-details-right'>Amount Paid:</td>
+                                <td class='item-details-center'>$ {{ order_total }}</td>
+                            </tr>
+                            </tbody>
+                        </table><br/>
+                    <p>Check your order status here:<br/>{{ path }}</p>
+                </div>
+        </div>
+
+        <div class='records'>
+            <p>Thank you for your recent order from Beaker.Life!</p>
+            <p>Beaker.Life LLC &copy 2020</p>
+        </div>
+
+    </body>
+</html>

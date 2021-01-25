@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block javascript %}
+{% endblock %}
+
+{% block content %}
+
+		<div class='row mt-3'>
+			<div class='col-12'>
+				<nav aria-label="breadcrumb">
+					  <ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="/">Home</a></li>
+						<li class="breadcrumb-item active" aria-current="products/">Products</li>
+					  </ol>
+				</nav>
+			</div>	
+		</div>
+
+<div class='row'>
+
+    <div id='filter-form-reg' class='col-sm-3 filter-on-big'>
+        <form method="GET" action="{% url 'products:product-variations-list' %}">
+        {{ filter_form|crispy }}
+        <input type='hidden' name='q' value='{{ request.GET.q }}' />
+        <input type='submit' value='Apply Filter' class='btn btn-danger btn-block'>
+
+        </form>
+        <a class='ml-1' href="{% url 'products:product-variations-list' %}">Clear Filters</a>
+    </div>
+
+    <div class='col-sm-3 filter-on-small'>
+      <a class='btn btn-block btn-outline-dark filter-modal'>add a filter <span class='prime-text-blue'><i class="fas fa-sort-amount-down"></i></span></a>
+    </div>
+
+
+    <div class='col-sm-9'>
+
+    <h4 class='mt-2 make-text-sm'>All Products <a class='btn btn-outline-dark btn-sm category-btn-display' href='{% url "categories:categories" %}'>Categories</a><span class='float-right maroon-text filter-result-text'>
+      {{ object_list.all.count }} products found
+    </span></h4>
+    <hr/>
+
+    {% if object_list.count == 0 %}
+
+    Nothing found
+
+    {% else %}
+    {% include "products/variations.html" with object_list=object_list %}
+
+    {% endif %}
+    </div>
+</div>
+
+{% endblock %}

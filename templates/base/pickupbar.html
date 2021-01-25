@@ -1,0 +1,44 @@
+<!-- {% url 'home' as account_home %}
+{% url 'pickup_time_select' as pickup_list %} -->
+
+<div class="nav-scroller-pickup bg-white shadow mb-2">
+	<div class='container'>
+		<nav class="nav nav-underline">
+			<div class='container'>
+				<div class='row'>
+					<div class='col-xs-12 col-sm-6 col-md-7 display-gray-border-bar'>
+						<a class='nav-link' href='#'><span class='maroon-text'>Pickup from</span><br/><span class='text-muted'>Ambler Location</span></a>
+					</div>
+					<div class='col-xs-12 col-sm-6 col-md-5'>
+						<a class="nav-link" href="{% url 'pickup_time_select' %}">
+							{% if request.session.cart_time == "pickup is easy and free" %}
+							<div class='container'>
+								<div class='row'>
+									<div class='col-6 col-sm-6'>
+										<span id='cart-time-text-default' class='maroon-text'>Reserve a time slot</span><br/><span id="cart-time-badge" class='text-muted'>pickup is easy and free</span>
+									</div>
+									<div class='col-6 col-sm-6'>
+										<button id="cart-time-btn" class='btn btn-primary btn-sm mt-1'>See times</button>
+									</div>
+								</div>
+							</div>
+							<!-- <span class='maroon-text'>Choose a timeslot</span><br/><span class='text-muted'>select a pickup timeslot below<br/>current pickup time: <span id="cart-time-badge">{{ request.session.cart_time }}</span></span> -->
+							{% else %}
+							<div class='container'>
+								<div class='row'>
+									<div class='col-6 col-sm-6'>
+										<span id='cart-time-text' class='maroon-text'>Your time slot</span><br/><span class='text-muted'><span id="cart-time-badge">{{ request.session.cart_time }}</span></span>
+									</div>
+									<div class='col-6 col-sm-6'>
+										<button id="cart-time-btn" class='btn btn-primary btn-sm mt-1'>Change</button>
+									</div>
+								</div>
+							</div>
+							{% endif %}
+						</a>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</div>
+</div>

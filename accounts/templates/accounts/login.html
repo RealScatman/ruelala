@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class='row'>
+	<div class='col-12 mx-auto mt-4'>
+		<h4><i class="fas fa-lock"></i> Login or Create an Account</h4>
+		<hr/>
+	</div>
+</div>
+<div class='row'>
+	<div class='col-sm-12 col-md-6 mx-auto'>
+		<div class="card bg-light mb-3 shadow">
+	      <div class="card-body">
+			<h5 class="card-title">I'm a Returning Customer</h5>
+			<form method='POST'> {% csrf_token %}
+				{{ form }}
+				<button type='submit' class='btn btn-primary btn-lg my-3'>Login</button>
+				<a href='/accounts/password/reset/' class="btn btn-link btn-sm">Forgot your password?</a>
+			</form>
+			</div>
+		</div>
+	</div>
+	<div class='col-sm-12 col-md-6 mx-auto'>
+		<div class="card mb-3 shadow">
+	      <div class="card-body">
+			<h5 class="card-title">I'm a New Customer</h5>
+			<p>Creating an account is fast, easy, and free.  You'll be able to manage account information and signup for notifications!</p>
+			<a href="/register/" class="btn btn-outline-primary">Create an Account</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+	  <!-- <li class='nav-item'><a class='nav-link' href="{% url 'auth_logout' %}">Logout</a></li> -->
+	  <li class='nav-item'><a class='nav-link' href="{% url 'registration_register' %}">Register</a></li>
+
+	  {% if not request.user.is_authenticated and not "/accounts/login" in request.get_full_path %}
+	  <li class="nav-item dropdown">
+	  	<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false">Login <span class="caret"></span></a>
+		  <ul class="dropdown-menu" role="menu">
+						  
+			  <form class='form-inline my-2' method='POST' action='{% url "auth_login" %}'>{% csrf_token %}
+				<div class='input-group'>
+					<input type='text' class='form-control' name='username' placeholder='Username' /> 
+				</div>
+				<div class='input-group'>
+					<input type='password' class='form-control' name='password' placeholder='Password' />
+				</div>
+				<button type='submit' class='btn btn-default btn-block'>Login</button>
+			</form>
+			<p class='text-center'><a href='{% url "auth_password_reset" %}'>Forgot password</a>?</p>
+		  </ul>
+	   </li>
+	{% endif %}

@@ -1,0 +1,64 @@
+
+{% extends "base.html" %}
+
+
+
+{% block content %}
+
+{% url 'categories:categories' as category_list_url %}
+
+	<div class='row mt-3 mb-3'>
+		<div class='col-12'>
+			<nav aria-label="breadcrumb">
+	  			<ol class="breadcrumb bg-light">
+	    			<li class="breadcrumb-item"><a href="/">Home</a></li>
+	    			<li class="breadcrumb-item" aria-current="categories"><a href="{{ category_list_url }}">Categories</a></li>
+	    			<li class="breadcrumb-item active" aria-current="{{ obj.get_absolute_url }}">{{ object.title }}</li>
+	  			</ol>
+			</nav>
+		</div>	
+	</div>
+
+<div class='row'>
+	<div class='col-sm-2'>
+		<h5>All Categories</h5>
+		{% for category in all_categories %}
+			<a href='{{ category.get_absolute_url }}'>{{ category.title }} <span class='badge badge-pill badge-danger align-text-bottom'>{{ category.product_set.all.count }}</span></a><br/>
+		{% endfor %}
+	</div>
+	<div class='col-sm-10 mt-2'>
+	<h4>Category: {{ object }} <span class='float-right maroon-text filter-result-text'>{{ object.product_set.count }} items</span></h4>
+	<hr/>
+
+
+
+	<!-- <div class='row'>
+	{% for product in products %}
+
+
+		<div class='col-6 col-xs-4 col-sm-4 col-md-4'>
+			{% include "products/product_thumbnail.html" with product=product price=True %}
+			
+		</div>
+		{% cycle '' '' '</div><div class="row">' %}
+
+	{% endfor %}
+
+	</div> -->
+	<div class='row'>
+		{% for variation in variations %}
+	
+	
+			<div class='col-6 col-xs-4 col-sm-4 col-md-4'>
+				{% include "products/exp_thumbnail.html" with variation=variation price=True %}
+				
+			</div>
+			{% cycle '' '' '</div><div class="row">' %}
+	
+		{% endfor %}
+	
+		</div>
+</div>
+</div>
+
+{% endblock %}

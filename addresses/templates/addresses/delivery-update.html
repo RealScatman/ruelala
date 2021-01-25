@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class='row'>
+    <div class='col-10 mx-auto col-md-6 '>
+      <p>Delivery Schedule</p>
+    <form method='POST' action=''> {% csrf_token %}
+      {{ form.as_p }}
+      <button type='submit' class='btn btn-primary'>Update</button>
+    </form>
+    </div>
+
+</div>
+
+{% endblock %}

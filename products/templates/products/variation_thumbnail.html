@@ -1,0 +1,23 @@
+<div class="thumbnail">
+	{% if variation.get_var_image_url %}
+	<div class='vid-container'>
+		<a href='{{ variation.get_absolute_url }}'><img id='img' class='img-fluid' src='{{ variation.get_var_image_url }}' /></a><br/>
+	</div>
+	{% else %}
+	<div class='vid-container'>
+		<a href='{{ variation.get_absolute_url }}'><img id='img' class='img-fluid' src='{{ variation.get_image_url }}' /></a><br/>
+	</div>
+	{% endif %}
+	<h5 class='total-thumb'><a href='{{ variation.get_absolute_url }}'>{{ variation.product.title }}</a><br/>
+		<span class='variety-text'>{{ variation.title }}</span></h5>
+	{% if price == "True" %}
+		${{ variation.get_html_price }}
+	{% endif %}
+	<p class='legal-sm'><span class='text-muted'>Pick Up Today</span>
+		{% if variation.inventory > 0 %} <span class='green-qty-text'>Limited Quantity</span>
+		{% else %}
+		<span class='unavailable-text'>call for availability</span>
+		{% endif %}
+		<br/>
+		<span class='text-muted'>Delivery</span> <span class='unavailable-text'>Unavailable</span></p>
+</div>

@@ -1,0 +1,7 @@
+<div class='row'>
+    {% for variation in object_list %}
+        <div class='col-xs-4'>
+        {% include "products/card_thumb.html" with variation=variation price="True" %}
+        </div>
+    {% endfor %}
+</div>

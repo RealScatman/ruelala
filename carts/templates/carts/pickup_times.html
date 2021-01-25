@@ -1,0 +1,21 @@
+{% if pickup_qs.exists %}
+		<form method='POST' action='{{ action_url }}'> {% csrf_token %}
+
+			{% if next_url %}
+			<input type='hidden' name='next' value='{{ next_url }}' />
+			{% endif %}
+
+			<!-- {% if address_type %}
+			<input type='hidden' name='address_type' value='{{ address_type }}' />
+			{% endif %} -->
+
+			{% for time in pickup_qs %}
+				<label for='pickup-{{ time.id }}'>
+					<input id='pickup-{{ time.id }}' type='radio' name='pickup_time' value='{{ time.id }}' />
+				{{ time.get_short_time }}
+				</label><br/>
+			{% endfor %}
+			<br/>
+			<button type='submit' class='btn btn-primary'>Select Pickup Time</button>
+		</form>
+{% endif %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+		<div class='row mt-3 mb-3'>
+			<div class='col-12'>
+				<nav aria-label="breadcrumb">
+					  <ol class="breadcrumb bg-light">
+						<li class="breadcrumb-item"><a href="/">Home</a></li>
+						<li class="breadcrumb-item active" aria-current="categories/">Categories</li>
+					  </ol>
+				</nav>
+			</div>	
+		</div>
+
+<div class='row'>
+
+    <div class='col-sm-3'>
+      <h5>All Categories</h5>
+      <!-- <a href="{% url 'categories:categories' %}">All</a><br/> -->
+      {% for category in all_categories %}
+        <a href='{{ category.get_absolute_url }}'>{{ category.title }} <span class='badge badge-pill badge-danger align-text-bottom'>{{ category.product_set.all.count }}</span></a><br/>
+      {% endfor %}
+    </div>
+
+
+    <div class='col-sm-9'>
+
+    <h4 class='mt-2 make-text-sm'>All Categories <span class='float-right maroon-text filter-result-text'>
+      {{ object_list.all.count }} categories found
+    </span></h4>
+    <hr/>
+
+    {% if object_list.count == 0 %}
+
+    Nothing found
+
+    {% else %}
+    {% include "products/categories.html" with object_list=object_list %}
+
+    {% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+<div class="card mb-3 bg-white shadow border-secondary">
+    {% if instance.image %}
+      <div class='box-vid-container'>
+        <a href="{{ instance.get_absolute_url }}">
+          <img class="card-img-top" src="{{ instance.image.url }}" alt="{{ instance.title }} logo">
+          <span class="video-duration">${{ instance.price|floatformat:"0" }}</span>
+        </a>
+      </div>
+        {% endif %}
+    <div class="card-body text-center">
+      <h5 class="card-title maroon-text">{{ instance.title }}</h5>
+      <!-- <p class="legal-sm text-muted">{{ instance.description|truncatewords:12 }}</p> -->
+      <div class='text-center'>
+        <a href="{{ instance.get_absolute_url }}" class="btn btn-outline-danger btn-sm my-2">See Menu</a>
+          {% include 'accounts/snippets/subscription-update-cart.html' with subscription=instance box=box %}
+      </div>
+      <!-- <hr/> -->
+      <!-- <div class='text-right'>
+        {% if instance.is_digital %}
+          <p>${{ instance.price }}/mth</p>
+        {% else %}
+          <p>${{ instance.price }}</p>
+        {% endif %}
+      </div> -->
+    </div>
+  </div>

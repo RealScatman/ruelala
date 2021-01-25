@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block head_extra %} 
+{{ form.media }}
+
+{% endblock head_extra %}
+
+{% block content %}
+
+<div class='row'>
+    <div class='col-sm-6 mx-auto'>
+        <div class='card shadow'>
+            <div class='card-body'>
+                <h4>Current Inventory</h4>
+                <hr/>
+                <table class='table table-sm'>
+                {% for object in object_list %}
+
+                <tr>
+                <td><a href="{% url 'products:exp_detail' slug=object.product.slug %}?var_display={{ object.slug }}">{{ object.product.title }} {{ object.title }}</a></td><td>{{ object.inventory }}</td>
+                </tr>
+
+                {% endfor %}
+                </table>
+                <!-- <a href='#' class='btn btn-primary'>Add New Variation</a> -->
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-6 mx-auto'>
+        <div class='card shadow'>
+            <div class='card-body'>
+                <form method="POST" action="" enctype='multipart/form-data'> {% csrf_token %}
+                    
+                {{ formset.management_form }}
+
+                {% for form in formset %}
+
+                <b>{{ form.instance.product.title }}</b>
+                <hr/>
+                <!-- {{ form.instance.title }} -->
+                {{ form.as_p }}
+                
+                {% endfor %}
+
+                <input type="submit" value="Update" class='btn btn-danger' />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

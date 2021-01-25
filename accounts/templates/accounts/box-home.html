@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- <div class='row mt-3 mb-3'>
+    <div class='col-sm-12'>
+        <div class="my-1 p-3 bg-white rounded box-shadow">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-white">
+              <li class="breadcrumb-item"><a href="{% url 'account:subscription-list' %}"><span class='maroon-text'><i class="fas fa-exchange-alt"></i></span> {{ title }}® Subscriptions</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Account Info Setup</li>
+            </ol>
+           </nav>
+        </div>
+    </div>
+</div> -->
+
+
+
+<div class='row mb-2 mt-3'>
+  <div class='col-sm-12'>
+    <h4 class='make-text-smlr'>Account Info Setup (Step 2 of 4)</h4>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='col-sm-12'>
+  <div class="my-1 p-3 bg-white rounded box-shadow">  
+  {% if box %}
+  <div class='row'>
+    <div class='col-sm-6 mr-auto'>
+      <div class="card bg-light mb-3">
+	      <div class="card-body">
+        <h5 class="card-title">Excellent Selection! Lets get your account setup</h5>
+        <hr/>
+          <form method='POST'> {% csrf_token %}
+            {{ form }}
+            <button type='submit' class='btn btn-primary btn-block my-3' href='{% url "account:checkout" %}'>Next Step - Schedule and Payment Info</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class='col-sm-5'>
+      <div class='card'>
+        <div class='card-body'>
+          <h4 class='card-title'>Summary</h4>
+          <hr/>
+            <img class='img-fluid' src="{{ box.subscription.image.url }}" alt="{{ box.subscription.title }} logo">
+            <p><span class='green-text-md'><i class="fas fa-check-circle"></i></span> {{ box.subscription.title }}<br/>
+              <a class='legal-sm' href="{% url 'account:subscription-list' %}">(click to reselect)</a></p>
+            <p><b>Total</b> $<span class='cart-subtotal'>{{ box.total }} per delivery</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% else %}
+    <div class="text-center">
+      <p class='lead'> Shopping Cart is currently empty!</p>
+      <p><a class='btn btn-lg btn-outline-primary' href='{% url "account:subscription-list" %}'>Browse Options</a></p>
+    </div>
+  {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% url "account:checkout" %}

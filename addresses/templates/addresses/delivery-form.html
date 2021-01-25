@@ -1,0 +1,16 @@
+
+<div class="week-picker"></div>
+<br/>
+<label>Week :</label> <span id="startDate"></span> - <span id="endDate"></span>
+
+<form method='POST' action='{% if action_url %}{{ action_url }}{% else %}{% url "login" %}{% endif %}'> 
+	{% csrf_token %}
+	{% if next_url %}
+	<input type='hidden' name='next' value='{{ next_url }}' />
+	{% endif %}
+    {% if delivery_start %}
+    <input type='hidden' name='delivery_start' value='{{ delivery_start }}' />
+    {% endif %}
+	{{ form.as_p }}
+	<button type='submit' class='btn btn-primary'>Submit</button>
+</form>

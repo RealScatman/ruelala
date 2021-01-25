@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+
+<div class='row mt-3 mb-3'>
+    <div class='col-sm-12'>
+        <div class="my-1 p-3 bg-white rounded shadow">
+            <h5><a href="{% url 'staff-order-list' %}">All Orders</a><span class='text-muted'> / Customer: {{ object.user }}</span></h5>
+            <span class=''><small>Staff User: (<a  href="{% url 'accounts:user-home' %}" class=''> {{ request.user.email }} </a>) {% if request.user.is_sub_member %}<span class="badge badge-success ml-1">Subscriber <i class="fas fa-check"></i></span>{% endif %}</small></span>
+        </div>
+    </div>
+</div>
+
+<div class='row'>
+    <div class='col-sm-7 mt-1'>
+        <div class='card shadow mb-2'>
+            <div class='card-body'>
+                <h5><span class='title-heavy-txt'><i class="fas fa-sticky-note"></i> Notes</span> <a class='btn btn-outline-primary float-right' href='#'><i class="fas fa-plus"></i> Add Note</a></h5>
+                <hr/>
+                <p class='text-muted'>No notes yet...</p>
+                </div>
+            </div>
+        <div class='card shadow'>
+            <div class='card-body'>
+                <h5><span class='title-heavy-txt'><i class="fas fa-shopping-bag"></i> Recent Orders</span></h5>
+                <table class='table table-sm'>
+                <thead><th>Order ID</th><th>Total</th><th>Status</th></thead>
+                {% for order in object.order_set.all.not_created %}
+                <tr>
+                <td>
+                <a href='{{ order.staff_get_absolute_url }}'>#{% if order.order_id %}{{ order.order_id }}{% else %}{{ order.id }}{% endif %}</a>
+                </td>
+                <td>
+                ${{ order.order_total }}
+                </td>
+                <td>
+                {% if order.status == 'paid' %}
+                {{ order.status }} <span class='paid-green'><i class="far fa-check-circle"></i></span>
+                {% else %}
+                {{ order.status }}
+                {% endif %}
+                </td>
+                </tr>
+                {% endfor %}
+
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-5 mt-1'>
+        <div class='card shadow mb-2'>
+            <div class='card-body'>
+                <h5><span class='title-heavy-txt'><i class="far fa-chart-bar"></i> Stats</span></h5>
+                <hr/>
+                <div class='row'>
+                    <div class='col-sm-4 text-center'>
+                        <p class='text-muted'>$0.00<br/><span class='legal-sm'>Pending Payments</span></p>
+                    </div>
+                    <div class='col-sm-4 text-center'>
+                        <p class='text-muted'>$0.00<br/><span class='legal-sm'>Account Balance</span></p>
+                    </div>
+                    <div class='col-sm-4 text-center'>
+                        <p class='lifetime-value'>${{ lifetime_value }}<br/><span class='legal-sm'>Lifetime Value</span></p>
+                    </div>
+                    <div class='col-sm-12'>
+                        <p class='float-left text-muted legal-sm'>Updated: {{ latest_order.timestamp }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='card shadow mt-2'>
+            <div class='card-body'>
+                <h5><span class='title-heavy-txt'><i class="fas fa-info-circle"></i> Customer Information</span></h5>
+                <hr/>
+                <p class='text-muted'><span class='title-heavy-txt'><i class="fas fa-user-circle"></i> {{ object.user.full_name }}</span><br/>{{ object }}<br/>{{ object.useraddress_set.first.street }}<br/>
+                {{ object.useraddress_set.first.city}}, {{ object.useraddress_set.first.state }} {{ object.useraddress_set.first.zipcode }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

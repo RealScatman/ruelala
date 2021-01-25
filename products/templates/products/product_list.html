@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+		<div class='row mt-3 mb-3'>
+			<div class='col-12'>
+				<nav aria-label="breadcrumb">
+					  <ol class="breadcrumb bg-light">
+						<li class="breadcrumb-item"><a href="/">Home</a></li>
+						<li class="breadcrumb-item active" aria-current="products/">Products</li>
+					  </ol>
+				</nav>
+			</div>	
+		</div>
+
+<div class='row'>
+
+    <div class='col-sm-3'>
+        <form method="GET" action="{% url 'products' %}">
+        {{ filter_form|crispy }}
+        <input type='hidden' name='q' value='{{ request.GET.q }}' />
+        <input type='submit' value='Apply Filter' class='btn btn-danger btn-block'>
+
+        </form>
+        <a class='ml-1' href="{% url 'products' %}">Clear Filters</a>
+    </div>
+
+
+    <div class='col-sm-9'>
+
+    <h4 class='mt-2 make-text-sm'>All Products <a class='btn btn-outline-dark btn-sm' href='{% url "categories" %}'>Categories</a><span class='float-right maroon-text filter-result-text'>
+      {{ object_list.all.count }} products found
+    </span></h4>
+    <hr/>
+
+    {% if object_list.count == 0 %}
+
+    Nothing found
+
+    {% else %}
+    {% include "products/products.html" with object_list=object_list %}
+
+    {% endif %}
+    </div>
+</div>
+
+{% endblock %}

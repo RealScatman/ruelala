@@ -1,0 +1,69 @@
+
+    <div class='col-sm-6 text-center mt-1'>
+        <div class='card shadow'>
+            <div class='card-body'>
+                {% if request.user.is_staff %}
+				<div class='btn-group float-right'>
+					<a class='btn btn-light mr-1' href="{% url 'order-generate-invoice' pk=order.pk %}"><i class="far fa-file-pdf"></i></a>
+					<a class='btn btn-light mr-1' href="#"><i class="far fa-file-excel"></i></a>
+					<a class='btn btn-light' href="#"><i class="fas fa-print"></i></a>
+                </div><br/><br/>
+                {% else %}
+                {% endif %}
+                <h5>
+                Order {% if order.order_id %}#{{ order.order_id }}{% endif %} Summary
+                </h5>
+
+                <table class='table'>
+                <tr><td>{{ order.cart.cartitem_set.count }} Item(s): <br/>{% for i in order.cart.cartitem_set.all %}
+                    <img src='{{ i.item.get_var_image_url }}' class='img-cart'/><br/>
+                <b>{{ i.item.get_title }}</b> <span class='legal-sm'>x{{ i.quantity }}</span><br/>
+                {% endfor %}</td></tr>
+                <tr><td>Cart Subtotal: {{ order.cart.subtotal }}</td></tr>
+                <tr><td>Tax: {{ order.cart.tax_total }}</td></tr>
+                <tr><td>Items Total: {{ order.cart.total }}</td></tr>
+
+                <tr><td>Shipping: {{ order.shipping_total_price }}</td></tr>
+                <tr><td>Order Total: {{ order.order_total }}</td></tr>
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class='col-sm-6 text-center mt-1'>
+        <div class='card shadow'>
+            <div class='card-body'>
+                <p><span class='text-uppercase'><b>Billed to</b></span>
+                <br/>
+                <i class="fas fa-address-card"></i> {% if order.cart.user.full_name != None %} {{ order.cart.user.full_name }} {% else %} {{ order.user.user.full_name }} {% endif %}<br/>
+                {{ order.billing_address.street }}<br/>
+                {{ order.billing_address.city }}, {{ order.billing_address.state }} {{ order.billing_address.zipcode }}
+                </p>
+                <p>
+                <a href='{% url "order_address" %}'>Change an Address</a>
+                </p>
+                <!-- {% if order.cart.is_delivery %}
+                <p><b>Please Note:</b> Your Order will be available for pickup<br/>in one hour at our Ambler Location.</p>
+                {% else %}
+                <p><b>Shipping to</b>
+                <br/>
+                {{ order.shipping_address.get_address }}
+                </p>
+                {% endif %} -->
+                <p><b>Your Pickup Date & Time:</b> {{ order.pickup_date|date:"D M d" }} @{{ order.pickup_time_slot|time:"g A" }}</p>
+                {% if order.status == 'ready' %}
+                <br/>
+                <p>Your Order is ready for pickup! Please check in below when you have arrived.</p>
+                <form method='POST' action="{% url 'order_detail' pk=order.pk %}"> {% csrf_token %}
+                    {{ form }}
+                    <button class ='btn btn-dark-orange btn-block text-uppercase shadow' type='submit'>Check In</button>
+                </form>
+                {% elif order.status == 'checked-in' %}
+                <p class='text-muted'><span class='orange-txt'><i class="fas fa-check-circle"></i></span> Thank you for Checking in! We will be out with your order shortly!</p>
+                <p class='title-heavy-txt'><b>Please show this order number at order pickup along with your valid identification.</b></p>
+                {% else %}
+                <p>We will notify you when your order is ready for pickup.</p>
+                {% endif %}
+            </div>

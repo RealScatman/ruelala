@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class='row'>
+	<div class='col-sm-6 mx-auto'>
+		<div class='card shadow'>
+			<div class='card-body'>
+				<h4 class='card-title'>New Product Creation Form</h4><hr/>
+
+				<form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
+				{{ form.as_p }}
+				{{ image_form.as_p }}
+				<input type='submit' class='btn btn-primary' value='Create Product' />
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class='col-sm-6 mx-auto'>
+		<div class='card shadow'>
+			<div class='card-body'>
+				<h4 class='card-title'>Adding a new Product is Easy!</h4><hr/>
+				<p>Add a title, description and select the appropriate category and type!</p>
+				<p>A default product variation will be created that you can edit after product creation.</p>
+			</div>	
+		</div>	
+	</div>
+</div>
+
+{% endblock content %}

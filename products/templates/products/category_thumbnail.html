@@ -1,0 +1,8 @@
+<div class="thumbnail">
+	{% if category.get_image_url %}
+	<div class='vid-container'>
+		<a href='{{ category.get_absolute_url }}'><img id='img' class='img-fluid' src='{{ category.get_image_url }}' /></a><br/>
+	</div>
+	{% endif %}
+	<h5 class='total-thumb'><a href='{{ category.get_absolute_url }}'>{{ category.title }}</a><br/>
+</div>

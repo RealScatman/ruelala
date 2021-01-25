@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block style %}
+	/* Set the size of the div element that contains the map */
+	#map {
+	height: 400px;  /* The height is 400 pixels */
+	width: 100%;  /* The width is the width of the web page */
+	}
+ {% endblock %}
+
+{% block content %}
+
+		<div class='row mt-3 mb-1'>
+			<div class='col-12'>
+				<nav aria-label="breadcrumb">
+					  <ol class="breadcrumb bg-light">
+						<li class="breadcrumb-item"><a href="/">Home</a></li>
+						<li class="breadcrumb-item active" aria-current="deliveryzipcodes/">Delivery Zip Codes</li>
+					  </ol>
+				</nav>
+			</div>	
+    </div>
+    <div class='col-sm-6 mx-auto mb-2'>
+      <div class='card bg-light'>
+        <div class='card-body text-center'>
+          <form method='POST'>{% csrf_token %}
+            {{ form }}
+            <button class='btn btn-danger btn-block mt-2' type='submit'>Check My Zipcode</button>
+          </form>
+        </div>
+      </div>
+    </div>
+		<h4>Beaker.Life Delivery Area</h4>
+    <!--The div element for the map -->
+    <div id="map"></div>
+    <script>
+    var locations = [
+      {% for delivery_area in object_list %}
+        {% for zipcodes in delivery_area.zipcodes.all %}
+            {
+            lat: {{ zipcodes.latitude }}, 
+            lng: {{ zipcodes.longitude }},
+            name: "{{ zipcodes.zipcode }}"
+          },
+        {% endfor %}
+      {% endfor %}
+
+    ] //should be an ajax request
+    var map;
+    var markers;
+    var infoWindow;
+    // Initialize and add the map
+    function initMap() {
+      // The location of Uluru
+      var uluru = {lat: {{ object_list.0.zipcodes.all.0.latitude }}, lng: {{ object_list.0.zipcodes.all.0.longitude }}};
+      // The map, centered at Uluru
+      map = new google.maps.Map(
+          document.getElementById('map'), {
+            zoom: 8, // 0-18
+            center: uluru
+            });
+
+      infoWindow = new google.maps.InfoWindow()
+
+      function createMarker(latlng, name){
+        var html = "<b>" + name + "</b>"
+        // The marker, positioned at latlng
+        var marker = new google.maps.Marker({
+          position: latlng, 
+          map: map,
+          animation: google.maps.Animation.DROP,
+          });
+        google.maps.event.addListener(marker, 'click', function(){
+          infoWindow.setContent(html)
+          infoWindow.open(map, marker)
+          // toggleBounce()
+        })
+      }
+      function toggleBounce() {
+        if (marker.getAnimation() !== null) {
+          marker.setAnimation(null);
+        } else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+      }
+      if (locations.length > 0) {
+        for(var i = 0; i < locations.length; i++) {
+          var obj = locations[i]
+          var latlng = {lat: obj.lat, lng: obj.lng}
+          createMarker(latlng, obj.name)
+        }
+      }
+    }
+    </script>
+    <!--Load the API from the specified URL
+    * The async attribute allows the browser to render the page while the API loads
+    * The key parameter will contain your own API key (which is not needed for this tutorial)
+    * The callback parameter executes the initMap() function
+    -->
+    <div class='row mt-2'>
+      <div class='col-sm-12'>
+      {% for delivery_area in object_list %}
+        <div class='card mb-1'>
+          <div class='card-body'>
+            <h4>{{ delivery_area.delivery_day }} Deliveries</h4>
+            {% for zipcodes in delivery_area.zipcodes.all %}
+              {{ zipcodes.zipcode }},
+            {% empty %}
+            {% endfor %}
+          </div>
+        </div>
+      {% empty %}
+      {% endfor %}
+      </div>
+    </div>
+        
+{% endblock %}

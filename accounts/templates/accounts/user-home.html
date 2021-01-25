@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block style %}
+input[type=number] {
+	width: 50px;
+}
+{% endblock %}
+
+<script>
+	{% block jquery %}
+	$(".item-qty").change(function(){
+		// $(this).next(".btn-update").fadeIn();
+		// event.preventDefault();
+		// .prev(h1)
+		var item = $(this).prev("input[type='hidden']").val();
+		var qty = $(this).val()
+		var data = {
+			item: item,
+			qty: qty
+		}
+		console.log(data);
+		$.ajax({
+			type: "GET", // "POST"
+			url: "{% url 'cart' %}",
+			data: data,
+			success: function(data) {
+				$("#jquery-message").text("Added " + data.item_added + " Deleted " + data.deleted)
+				if (data.deleted){
+					$("#item-"+item).fadeOut();
+					$("#subtotal").text(data.subtotal);
+					$("#taxtotal").text(data.tax_total);
+					$("#carttotal").text(data.cart_total);
+				} else {
+					$("#item-line-total-"+item).text(data.line_total);
+					$("#subtotal").text(data.subtotal);
+					$("#taxtotal").text(data.tax_total);
+					$("#carttotal").text(data.cart_total);
+				}
+				if (data.total_items == 0 ) {
+					$(".table").fadeOut()
+					var template = "{% include 'carts/empty_cart.html' %}";
+					$(".main-content").html(template);
+				}
+				var message = ""
+				if (data.item_added) {
+					message = "New item added"
+				} else if (data.deleted){
+					message = "Item removed"
+				} else {
+					message = "Item updated"
+				}
+				showFlashMessage(message);
+				updateCartItemCount()
+				}, 
+			error: function(response, error) {
+				// console.log(response)
+				// console.log(error)
+				$("#add-form").submit()
+			}
+		})
+	});
+	{% endblock %}
+	</script>
+
+{% block content %}
+
+<div class='row'>
+	<div class='col-12 mx-auto mt-4'>
+		<h4><i class="fas fa-lock"></i> Welcome to Your Account!</h4>
+		<hr/>
+	</div>
+</div>
+<div class='row'>
+	<div class='col-sm-12 col-md-7 mx-auto'>
+	{% if upcoming_order %}
+		<div class="card mb-3 shadow">
+			<div class="card-body">
+				<h5 class="card-title title-heavy-txt">Your Next Delivery: {{ object_list.deliveryfrequency_set.first.delivery_start|date:"D M j" }} <span class='legal-sm float-right text-muted'>order #{{ upcoming_order.order_id }}</span></h5>
+				<hr/>
+				<div class='row mb-1'>
+					<div class='col-sm-6 mx-auto'>
+						<div class='vid-container'>
+							<img class='img-fluid rounded' src="{{ object_list.user.boxselection_set.first.subscription.image.url }}">
+							<span class="video-duration">${{ object_list.user.boxselection_set.first.subscription.price|floatformat:"0" }}</span>
+						</div>
+					</div>
+					<div class='col-sm-6 mx-auto'>
+						<h6 class='title-heavy-txt maroon-text mt-1'>{{ object_list.user.boxselection_set.first.subscription.title }} Box</h6>
+						<p class='legal-sm text-muted'>Perfect size for busy families with kiddo's. 13-16 different fruits and vegetables in each box.</p>
+						<!-- <p class='legal-sm text-muted'>We're working on our menu right now, but your order will be ready for you to make changes to soon! Please try again in a little bit.</p>	 -->
+					</div>
+				</div>
+				<h5 class='title-heavy-txt'>This Weeks Items:</h5>
+				<hr/>
+				{% for product in my_order_products %}	
+				       <div class='row'>
+							<div class='col-5 col-sm-4'>
+								<img class="img-fluid" src="{{ product.get_image_url }}" alt="Card image cap">
+							</div>
+							<div class='col-6 col-sm-8'>
+								<h6 class='maroon-text title-heavy-txt'>{{ product.title }}</h6>
+								<p class='legal-sm text-muted'>{{ product.variation_set.first.title }}</p>
+								<p class='legal-sm text-muted'>{{ product.description|truncatewords:10 }}</p>
+							</div>
+						</div>
+						<hr/>
+				{% endfor %}
+				<div class='row'>
+					<div class='col-sm-12'>
+						<h6 class='text-center title-heavy-txt'>add-ons:</h6>
+					</div>
+					<div class='col-sm-12 '>
+						{% if object.cartitem_set.count < 1 %}
+						<p class='text-center legal-sm text-muted'>no add on items, yet...</p>
+						{% else %}
+						<table class='table table-sm'> 
+							<thead class="">
+								<tr>
+								  <th scope="col">item</th>
+								  <th scope="col">qty</th>
+								  <th scope="col">price</th>
+								  <th scope="col">edit</th>
+								</tr>
+							  </thead>
+							<tbody>
+								{% for item in object.cartitem_set.all %}
+									<tr id='item-{{ item.item.id }}'>
+									<td>{{ item.item.get_title }}</td>
+									<td><form action="." method="GET" ><input type='hidden' name='item' value='{{ item.item.id }}' /><input type='number' class='item-qty' name='qty' value='{{ item.quantity }}' /><input type='submit' class='btn-update btn btn-link' value='Update item' style='display:none;'/></form></td>
+									<td id='item-line-total-{{ item.item.id }}'>{{ item.line_item_total }}</td>
+									<td class='text-center' ><a href='{{ item.remove }}'>X</a></td>
+									</tr>
+								{% endfor %}
+								<tr>
+									<td  colspan='4' class='text-right'>Box: <span id='subtotal'>{{ object_list.user.boxselection_set.first.subscription.price }}</span></td>
+								</tr>
+								<tr>
+									<td  colspan='4' class='text-right'>Subtotal: <span id='subtotal'>{{ object.subtotal }}</span></td>
+								</tr>
+								<tr>
+									<td colspan='4' class='text-right'>Tax (Estimated): <span id='taxtotal'>{{ object.tax_total }}</span></td>
+								</tr>
+								<tr>
+									<td colspan='4' class='text-right'><b>Total:</b> <span id='carttotal'>{{ object.total }}</span></td>
+								</tr>
+								<tr>
+									<td colspan='4' class='text-right'><a class='btn btn-warning mt-1' href="{% url 'checkout' %}">Checkout </a></td>
+								</tr>
+							</tbody>
+						</table>
+						{% endif %}
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col-sm-12 mb-2'>
+						<a href="{% url 'product-variations-list' %}" class='btn btn-sm btn-primary btn-uppercase btn-block'>
+							Shop for More!
+						</a>
+					</div>
+					<div class='col-6 col-sm-6'>
+						<span class='legal-sm'><b><i class="fas fa-home"></i> Deliver To:</b><br/>
+						{{ upcoming_order.billing_address.get_short_address }}
+						</span>
+					</div>
+					<div class='col-6 col-sm-6'>
+						<!-- <span class='legal-sm float-right'>box: ${{ upcoming_order.box.total }}<br/>
+							tax: {{ upcoming_order.tax }}<br/>
+							sub-total: {{ upcoming_order.subtotal }}<br/>
+							<b>total: {{ upcoming_order.total }}</b></span> -->
+						<span class='legal-sm float-right'><b>total: ${{ object.total }}</b></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<div class="card mb-3 shadow">
+	      <div class="card-body">
+			{% if object_list.address_set.first.delivery_day.delivery_day == 'Tuesday' %}
+			<h5 class="card-title title-heavy-txt">Your Next Delivery: {{ object_list.deliveryfrequency_set.first.delivery_start|date:"D M j" }}</h5>
+			{% else %}
+			<h5 class="card-title title-heavy-txt">Your Next Delivery: {{ object_list.deliveryfrequency_set.first.get_wednesday_delivery_date|date:"D M j" }}</h5>
+			{% endif %}
+			<hr/>
+			<div class='vid-container'>
+				<img class='img-fluid' src="{{ object_list.user.boxselection_set.first.subscription.image.url }}">
+				<span class="video-duration">${{ object_list.user.boxselection_set.first.subscription.price|floatformat:"0" }}</span>
+			</div>
+			{% if object_list.address_set.first.delivery_day.delivery_day == 'Tuesday' %}
+			<p class='mt-2'><i class="fas fa-info-circle"></i> Your next upcoming scheduled delivery is on <b>{{ object_list.deliveryfrequency_set.first.delivery_start|date:"D M j" }}</b>. We will send you an email on {{ object_list.deliveryfrequency_set.first.get_email_date|date:"l M j" }}, then you can log in and start making changes to your next order!</p>
+			{% else %}
+			<p class='mt-2'><i class="fas fa-info-circle"></i> Your next upcoming scheduled delivery is on <b>{{ object_list.deliveryfrequency_set.first.get_wednesday_delivery_date|date:"D M j" }}</b>. We will send you an email on {{ object_list.deliveryfrequency_set.first.get_email_date|date:"l M j" }}, then you can log in and start making changes to your next order!</p>
+			{% endif %}
+			</div>
+		</div>
+	{% endif %}
+	</div>
+	<div class='col-sm-12 col-md-5 mx-auto'>
+		<div class="card bg-light mb-3 shadow">
+	      <div class="card-body">
+            <h5 class="card-title title-heavy-txt">Featured Recipe</h5>
+            <p>Something sweet and delicious...</p>
+			</div>
+		</div>
+		<div class="card bg-light mb-3 shadow">
+			<div class="card-body">
+			  <h5 class="card-title title-heavy-txt"><i class="far fa-hand-point-right"></i> Share & Earn!</h5>
+			  <p>Referrals graciously loved & accepted! Tell Your Friends or share your custom link to earn $10 credit towards future orders:</p>
+			  <input class='form-control' type="text" id="referral-link" name="referral-link">
+			  <i class="fab fa-facebook"></i> <i class="fab fa-twitter"></i> <i class="fab fa-instagram"></i> <i class="fab fa-pinterest"></i>
+			</div>
+		  </div>
+		  <div class="card bg-light mb-3 shadow">
+			<div class="card-body">
+			  <h5 class="card-title text-muted"><i class="far fa-star"></i> Featured Items</h5>
+			  <p>We're still working on our menu, come back in a bit!</p>
+			</div>
+		  </div>
+	</div>
+</div>
+
+{% endblock %}
+
+
+{% for product in my_order_products %}
+<div class='col-sm-4'>
+	<div class='card shadow'>
+		<img class="card-img-top" src="{{ product.get_image_url }}" alt="Card image cap">
+		<div class='card-body'>
+			<p class='legal-sm text-muted'>{{ product.title }}</p>
+			<p class='legal-sm text-muted'>{{ product.variation_set.first.title }}</p>
+		</div>
+	</div>
+</div>
+{% endfor %}

@@ -1,0 +1,11 @@
+Hello {{ email }},
+
+Your recent order at Beaker.Life is ready fo pickup!
+
+Please click the link below and checkin once you have arrived to pickup your order!
+
+{{ path }}
+
+Thank you,
+
+Beaker.Life 

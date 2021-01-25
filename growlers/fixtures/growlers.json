@@ -1,0 +1,98 @@
+[
+{
+    "model": "growlers.growler",
+    "pk": 1,
+    "fields": {
+        "title": "Fat Head's Head Hunter IPA",
+        "slug": "fat-heads-head-hunter-ipa",
+        "description": "Smooth and delicious.",
+        "price": "19.99",
+        "abv": "5.0",
+        "type": 1,
+        "inventory": 5,
+        "active": true,
+        "timestamp": "2020-02-20T19:47:44.783Z",
+        "updated": "2020-02-20T20:24:56.499Z"
+    }
+},
+{
+    "model": "growlers.growler",
+    "pk": 2,
+    "fields": {
+        "title": "Russian River Blind Pig",
+        "slug": "russian-river-blind-pig",
+        "description": "Smooth and delicious.",
+        "price": "18.99",
+        "abv": "5.0",
+        "type": 1,
+        "inventory": null,
+        "active": true,
+        "timestamp": "2020-02-20T19:48:20.373Z",
+        "updated": "2020-02-20T20:03:15.595Z"
+    }
+},
+{
+    "model": "growlers.growler",
+    "pk": 3,
+    "fields": {
+        "title": "Sterling Pig Big Gunz Double IPA",
+        "slug": "sterling-pig-big-gunz-double-ipa",
+        "description": "Extremely Smooth DIPA.",
+        "price": "18.99",
+        "abv": "5.0",
+        "type": 1,
+        "inventory": 5,
+        "active": true,
+        "timestamp": "2020-02-20T19:49:29.357Z",
+        "updated": "2020-02-20T20:24:52.417Z"
+    }
+},
+{
+    "model": "growlers.growler",
+    "pk": 4,
+    "fields": {
+        "title": "Yuengling Traditional Lager",
+        "slug": "yuengling-traditional-lager",
+        "description": "From the oldest brewery in the US, comes this traditional american-style lager. The true Lager.",
+        "price": "16.99",
+        "abv": "4.5",
+        "type": 8,
+        "inventory": 5,
+        "active": true,
+        "timestamp": "2020-02-20T20:06:59.759Z",
+        "updated": "2020-02-20T20:24:48.043Z"
+    }
+},
+{
+    "model": "growlers.growler",
+    "pk": 5,
+    "fields": {
+        "title": "Half Acre Tuna",
+        "slug": "half-acre-tuna",
+        "description": "Delighfully crisp extra pale ale.",
+        "price": "16.99",
+        "abv": "5.5",
+        "type": 2,
+        "inventory": 1,
+        "active": true,
+        "timestamp": "2020-02-20T20:07:38.151Z",
+        "updated": "2020-02-20T20:25:06.897Z"
+    }
+},
+{
+    "model": "growlers.growler",
+    "pk": 6,
+    "fields": {
+        "title": "Heineken Lager",
+        "slug": "heineken-lager",
+        "description": "Traditional Lager from Amsterdam.",
+        "price": "14.99",
+        "abv": "5.0",
+        "type": 8,
+        "inventory": 5,
+        "active": true,
+        "timestamp": "2020-02-20T20:08:34.926Z",
+        "updated": "2020-02-20T20:25:01.281Z"
+    }
+}
+]

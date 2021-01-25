@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class='row'>
+	<div class='col-12 mx-auto mt-4'>
+		<h4>Order Placed Successfully!</h4>
+		<hr/>
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col-12 col-md-6 mx-auto'>
+		<div class="card border-primary shadow mb-3">
+			<div class="card-body">
+			  <h4 class="card-title"> Your order has been placed successfully!</h4>
+			  <br/>
+			  <p> Your Order ID is: <b>{{ object_list }}</b></p>
+			  <p>An order receipt has been sent to <b>{{ object_list.billing_profile.user.email }}</b></p>
+			</div>
+		</div>
+	</div>
+	<div class='col-12 col-md-6 mx-auto'>
+		<div class="card mb-3 shadow">
+	      <div class="card-body">
+			<p>Manage your Account at anytime!</p>
+			<ul>
+				<li>100s of Organic Items in stock.</li>
+				<li>Fast, Cloud Based Access.</li>
+				<li>24/7 Support.</li>
+			</ul>
+			</div>
+			<div class="text-center mb-2">
+				<hr>
+				<span>Missing Something? Browse our Shop Now!</span><br/><br/>
+				<a href="{% url 'login' %}" class="btn btn-outline-primary">Login and Start Browsing!</a><br/><br/>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

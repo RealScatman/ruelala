@@ -1,0 +1,15 @@
+
+{% extends "base.html" %}
+
+
+
+{% block content %}
+
+<div class='row'>
+{% include "orders/order_summary_short.html" with order=order %}
+
+</div>
+</div>
+{% endblock %}
+<a class ='btn btn-dark-orange btn-block text-uppercase shadow' href="{% url 'order-generate-check-in' pk=order.pk %}">Check In</a>
+

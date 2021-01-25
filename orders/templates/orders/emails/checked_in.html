@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <style type="text/css">
+
+            .template-title {
+                font-weight: 200;
+                font-size: 28px;
+                text-align: right;
+                color: #007cae;
+            }
+
+            .invoice-info {
+                font-weight: 200;
+                font-size: 14px;
+                text-align: right;         
+            }
+
+            .company-source {
+                font-weight: 200;
+                font-size: 14px;
+                text-align: left;
+            }
+
+            .company-address {
+                font-size: 9px;
+                text-align: left;
+            }
+
+            .invoice {
+                font-weight: 200;
+                font-size: 14px;
+            }
+
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+
+            .bill-bold {
+                font-weight: 300;
+            }
+
+            .records {
+                font-size: 18px;
+                font-weight: 100;
+                text-align: center;
+            }
+
+            .item-details {
+                text-align: center;
+            }
+
+            .item-details-center {
+                font-weight: bold;
+                text-align: center;
+            }
+
+            .item-details-right {
+                font-weight: bold;
+                text-align: right;
+            }
+
+            .legal-sm {
+                font-size: 11px;  
+            }
+
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;  
+            }
+
+            .title span {
+                color: #007cae;
+            }
+
+            .details {
+                padding: 10px 20px 0px 20px;
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+
+            table, th, td {
+              border: 1px solid black;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+        <div class='company-source'>
+            <h4>Beaker Life, LLC</h4>
+            <p class='company-address'>123 Main Street<br/>
+            Main, Maine 65432<br/>
+            (111) 876-5309</p>
+        </div>
+
+        <div class='template-title'>
+            <h2>User has Checked Into<br/>Slot #{{ checkin_slot }}</h2>
+        </div>
+        <div class='invoice-info'>
+            <p>Order #{{ order }}<br/>
+            User: {{ user_name }}<br/>    
+            Order Date: {{ invoice_time }}<br/>
+            Order Pickup Time: {{ pickup_time }}
+            </p>
+        </div>
+        <div class='invoice'>
+            <div class='details'>
+                <p>Once you have given order to client, please update the status to picked up at the following link<br/>{{ path }}</p>
+            </div>
+        </div>
+
+        <div class='records'>
+            <p>Thank you!</p>
+            <p>Beaker.Life LLC &copy 2020</p>
+            <p class='legal-sm'>need help? call 333-444-5555</p>
+        </div>
+
+    </body>
+</html>

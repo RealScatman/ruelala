@@ -1,0 +1,15 @@
+<div class="thumbnail">
+	{% if growler.get_image_url %}
+	<div class='vid-container'>
+		<a href='{{ growler.get_absolute_url }}'><img id='img' class='img-fluid' src='{{ growler.get_image_url }}' /></a><br/>
+	</div>
+	{% endif %}
+	<h5 class='total-thumb'><a href='{{ growler.get_absolute_url }}'>{{ growler.title }}</a><br/>
+		<span class='text-muted legal-sm'>{{ growler.type.title }} ABV {{ growler.abv }}%</span>
+	</h5>
+	<p class='legal-sm'><span class='text-muted'>Fill Up Today</span>
+		{% if growler.inventory > 0 %} <span class='green-qty-text'>Limited Quantity</span>
+		{% else %}
+		<span class='unavailable-text'>call for availability</span>
+		{% endif %}
+</div>

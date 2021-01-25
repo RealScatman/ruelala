@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class='row'>
+	<div class='col-12 mx-auto mt-4'>
+		<h4>Account Creation</h4>
+		<hr/>
+	</div>
+</div>
+<div class='row'>
+	<div class='col-12 col-md-6 mx-auto'>
+		<div class="card bg-light mb-3">
+	      <div class="card-body">
+			<h6 class="card-title">Get Started by providing your information below</h6>
+			<hr/>
+				<form method='POST'> {% csrf_token %}
+					{{ form }}
+					<button type='submit' class='btn btn-primary my-3'>Create Account</button>
+				</form>
+				<hr/>
+				<p><b>PLEASE NOTE:</b> When you apply, we will start reviewing your application. If everything is in good order, we will send you an account activation link to the email address provided.</p>
+			</div>
+		</div>
+	</div>
+	<div class='col-12 col-md-6 mx-auto'>
+		<div class="card border-dark mb-1">
+			<img class="img-fluid" src="{% static 'img/AmblerBeverage.jpg' %}" alt="{{ instance.title }} logo">
+	      <div class="card-body">
+	      	<!-- <a href="#contact-form" class='btn btn-sm btn-primary text-uppercase legal-sm text-white form-btn'>Accepting New Clients</a><br/><br/> -->
+			<p>Creating an account is fast, easy, and free.  You'll be able to manage account information and signup for email notifications!</p>
+			<ul>
+				<li><b>Free Account Creation</b> - Start to see the leads that come in before you buy!</li>
+				<li><b>Mobile First Design</b> - Created specifically for users on the go.</li>
+				<li><b>Cloud-based System</b> - Allows for access anywhere and no need for software upgrades.</li>
+			</ul>
+			</div>
+			<div class="text-center mb-2">
+				<hr>
+				<span>Already have an account?</span>
+				<a href="/login/" class="btn btn-outline-primary">Sign In</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

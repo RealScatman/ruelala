@@ -1,0 +1,13 @@
+<form class ='form-product-ajax' method='POST' action='{% url "account:update" %}' data-end-point='{% url "account:update" %}' class="form"> {% csrf_token %}
+	<input type='hidden' name='subscription_id' value='{{ subscription.id }}' />
+
+	<span class='submit-span'>
+	{% if box.subscription.id == subscription.id %}
+		<div class='btn-group'> <a class='btn btn-success' href="{% url 'account:box-home' %}">Proceed</a> <button type='submit' class='btn btn-link'> Remove?</button>
+		</div>
+	{% else %}
+		<button type='submit' class='btn btn-primary'> Select Box</button>
+	{% endif %}
+	</span>
+
+</form>
